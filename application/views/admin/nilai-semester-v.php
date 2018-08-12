@@ -12,7 +12,7 @@
 					<th class="text-center text-midle text-light">NILAI</th>
 				</tr>
 				<tbody>
-					<?php foreach ($this->Nilai_m->nilai_semester($users->id_mhs_pt,$data->id_smt) as $data2): ?>
+					<?php foreach ($this->Nilai_m->nilai_semester($datamhs->idmhspt,$data->id_smt) as $data2): ?>
 						<tr>
 							<td><?php echo $data2->kode_mk; ?></td>
 							<td><?php echo $data2->nm_mk; ?></td>

@@ -5,6 +5,7 @@ class Dashboard extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model('admin/Admin_m');
+        $this->load->model('admin/Dashboard_m');
     }
     public function index($offset=0){
         if ($this->ion_auth->logged_in()) {
@@ -20,6 +21,8 @@ class Dashboard extends CI_Controller {
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
+                $idmhs = $this->Dashboard_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
+                $data['datamhs'] = $idmhs;
                 $data['page'] = 'admin/beranda-v';
                 // pagging setting
                 $this->load->view('admin/dashboard-v',$data);

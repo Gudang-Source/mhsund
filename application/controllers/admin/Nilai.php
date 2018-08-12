@@ -16,7 +16,7 @@ class Nilai extends CI_Controller {
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $post = $this->input->get();
-                $idmhs = $this->Nilai_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs_pt);
+                $idmhs = $this->Nilai_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
                 $data['title'] = $this->Admin_m->info_pt(1)->nama_info_pt;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
@@ -25,7 +25,7 @@ class Nilai extends CI_Controller {
                 $data['page'] = 'admin/nilai-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
-                $data['hasil'] = $this->Nilai_m->daftar_nilai($data['users']->id_mhs_pt);
+                $data['hasil'] = $this->Nilai_m->daftar_nilai($idmhs->id_pd_siakad);
                 // echo "<pre>";print_r( $data['hasil']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
@@ -44,7 +44,7 @@ class Nilai extends CI_Controller {
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $post = $this->input->get();
-                $idmhs = $this->Nilai_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs_pt);
+                $idmhs = $this->Nilai_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
                 $data['title'] = $this->Admin_m->info_pt(1)->nama_info_pt;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
@@ -53,7 +53,7 @@ class Nilai extends CI_Controller {
                 $data['page'] = 'admin/nilai-semester-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
-                $data['hasil'] = $this->Nilai_m->aktivitas_kuliah($data['users']->id_mhs_pt);
+                $data['hasil'] = $this->Nilai_m->aktivitas_kuliah($idmhs->id_pd_siakad);
                 // echo "<pre>";print_r( $data['hasil']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }

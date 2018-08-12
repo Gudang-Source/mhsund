@@ -18,10 +18,11 @@ class Jadwal_m extends CI_Model
 	}
 	// khusus
 	public function detail_mahasiswa($id){
-		$this->db->where('mahasiswa_pt.id',$id);
-		$this->db->join('mahasiswa', 'mahasiswa.id_mhs_pt = mahasiswa_pt.id');
+		$this->db->select('mahasiswa_pt.*,mahasiswa.*,sms.*,mahasiswa_pt.id AS idmhspt');
+		$this->db->where('mahasiswa.id',$id);
+		$this->db->join('mahasiswa_pt', 'mahasiswa_pt.id_pd_siakad = mahasiswa.id');
 		$this->db->join('sms', 'sms.kode_prodi = mahasiswa_pt.kode_sms');
-		$query = $this->db->get('mahasiswa_pt');
+		$query = $this->db->get('mahasiswa');
 		return $query->row();
 	}
 	public function jadwal_kuliah($id,$smt){

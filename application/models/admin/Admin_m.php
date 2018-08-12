@@ -35,6 +35,11 @@ class Admin_m extends CI_Model
 		$query = $this->db->get('kategori_link');
 		return $query->row();
 	}
+	public function detail_data($table,$field,$id){
+		$this->db->where($field, $id);
+		$query = $this->db->get($table);
+		return $query->row();
+	}
 	function insert_link($data){
 		$this->db->insert('link', $data);
 	}
