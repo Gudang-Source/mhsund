@@ -20,10 +20,15 @@ class Dashboard extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                if ($this->ion_auth->is_admin()) {
+                     $data['aside'] = 'nav/admin';
+                     $data['page'] = 'admin/beranda-admin-v';
+                }else{
+                     $data['aside'] = 'nav/nav';
+                     $data['page'] = 'admin/beranda-v';
+                }
                 $idmhs = $this->Dashboard_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
                 $data['datamhs'] = $idmhs;
-                $data['page'] = 'admin/beranda-v';
                 // pagging setting
                 $this->load->view('admin/dashboard-v',$data);
             }

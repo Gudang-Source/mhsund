@@ -8,7 +8,7 @@
 		<a href="<?php echo base_url('index.php/admin/nilai/') ?>"><li class="linkmenu"><i class="fa fa-list text-info"></i> Lihat Semua Nilai</li></a>
 		<a href="<?php echo base_url('index.php/admin/nilai/semester') ?>"><li class="linkmenu"><i class="fa fa-tag text-info"></i> Nilai Persemester</li></a>
 		<a href="<?php echo base_url('index.php/admin/aktivitas/') ?>"><li class="linkmenu"><i class="fa fa-folder-o text-info"></i> Aktifitas Kuliah</li></a>
-		<li class="linkmenu"><i class="fa fa-shopping-cart text-info"></i> Pembayaran</li>
-		<li class="linkmenu"><i class="fa fa-trophy text-info"></i> Prestasi</li>
+		<li class="linkmenu"><i class="fa fa-shopping-cart text-info"></i> Pembayaran <span class="p-1 border border-success rounded" style="font-size: 9px;">Soon</span></li>
+		<li class="linkmenu"><i class="fa fa-trophy text-info"></i> Prestasi <span class="p-1 border border-success rounded" style="font-size: 9px;">Soon</span></li>
 	</ul>
 </div>

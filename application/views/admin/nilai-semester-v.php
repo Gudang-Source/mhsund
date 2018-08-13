@@ -2,7 +2,7 @@
 	<h5 class="text-info">Nilai Semester</h5><hr/>
 	<?php foreach ($hasil as $data): ?>
 		<div class="main-box mybgcolor rounded clearfix bts-bwh2 bts-ats">
-			<div class="text-secondary">Semester <?php echo $data->id_smt ?> <span class="float-right text-info"> <i class="fa fa-print"></i> cetak</span></div><hr/>
+			<div class="text-secondary">Semester <?php echo $data->id_smt ?> <span class="float-right text-secondary"> <i class="fa fa-print"></i> cetak</span></div><hr/>
 			<table class="table border border-info">
 				<tr class="bg-info">
 					<th class="text-midle text-light">KODE</th>
