@@ -39,6 +39,6 @@ class Jadwal_m extends CI_Model
 		$this->db->where('id_mhs_pt',$id);
 		$this->db->order_by('id_smt','desc');
 		$query = $this->db->get('kuliah_mahasiswa');
-		return $query->result();
+		return $query->row();
 	}
 }
