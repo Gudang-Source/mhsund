@@ -18,8 +18,8 @@
   <!-- bootstrap js -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- datatable -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
-  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
 
 </head>
 <body>
@@ -31,8 +31,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navmaster">
           <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link text-light" href="<?php echo base_url('index.php/admin/dashboard') ?>"><i class="ti ti-home"></i> Beranda</a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="<?php echo base_url('index.php/admin/setting') ?>"><i class="ti ti-desktop"></i> Profil</a>
+              <a class="nav-link text-light" href="<?php echo base_url('index.php/admin/satuan_pend') ?>"><i class="ti ti-desktop"></i> Profil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-light" href="<?php echo base_url('index.php/admin/Mahasiswa') ?>"><i class="ti ti-user"></i> Mahasiswa</a>
@@ -126,15 +129,25 @@
       </div>
     </div>
   </nav>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3">
-        <?php $this->view($aside); ?>
-      </div>
-      <div class="col-md-9">
-        <?php $this->view($page); ?>
+  <?php if ($this->ion_auth->is_admin()): ?>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <?php $this->view($page); ?>
+        </div>
       </div>
     </div>
-  </div>
+    <?php else: ?>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <?php $this->view($aside); ?>
+          </div>
+          <div class="col-md-9">
+            <?php $this->view($page); ?>
+          </div>
+        </div>
+      </div>
+    <?php endif ?>
 </body>
 </html>

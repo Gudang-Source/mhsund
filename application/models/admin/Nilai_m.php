@@ -26,7 +26,7 @@ class Nilai_m extends CI_Model
 		return $query->row();
 	}
 	public function daftar_nilai($id){
-		$this->db->select('nilai.*,mata_kuliah.id,mata_kuliah.nm_mk,mata_kuliah.sks_mk,mata_kuliah.kode_mk');
+		$this->db->select('nilai.*,mata_kuliah.id AS idmk,mata_kuliah.nm_mk,mata_kuliah.sks_mk,mata_kuliah.kode_mk');
 		$this->db->where('nilai.id_mhs_pt',$id);
 		$this->db->join('mata_kuliah', 'mata_kuliah.kode_mk = nilai.kode_mk');
 		$this->db->group_by('nilai.id_smt,nilai.kode_mk,nilai_huruf');
