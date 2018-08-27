@@ -2,6 +2,15 @@
 	<div class="card-body">
 		<h5 class="text-info m-0"><?php echo $title; ?></h5>
 		<p class="text-secondary" style="font-size: 13px;">Menampilkan dan mengelola data mahasiswa</p>
+        <div class="dropdown mb-2">
+            <button type="button" class="btn btn-success dropdown-toggle" id="pmb" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+                Tambah Mahasiswa
+          </button>
+          <div class="dropdown-menu" aria-labelledby="pmb">
+              <a class="dropdown-item" href="<?php echo base_url('index.php/admin/mahasiswa/tmbh_mhs_pmb/') ?>">Dari penerimaan Mahasiswa Baru</a>
+              <a class="dropdown-item" href="#">Masukan data manual</a>
+          </div>
+      </div>
 		<form action="<?php echo base_url('index.php/admin/mahasiswa/') ?>" method="get">
             <div class="row">
                 <div class="col">

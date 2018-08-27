@@ -254,5 +254,85 @@ class Mahasiswa extends CI_Controller {
         }
         return;
     }
+    public function tambah_mhs(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $data['title'] = 'Tambah Mahasiswa';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['page'] = 'admin/mahasiswa/tambah-v';
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function tmbh_mhs_pmb(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                if (empty($this->input->post('string'))) {
+                    $val = 'A';
+                }else{
+                    $val = $this->input->post('string');
+                }
+                $this->input->post();
+                $data['title'] = 'Tambah Mahasiswa dari penerimaan mahasiswa baru';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['page'] = 'admin/mahasiswa/tambah-pmb-v';
+                $url = 'http://pmb.unidayan.ac.id/index.php/kampus/get_data/'.@$val;
+                $ressult = json_decode(file_get_contents($url));
+                $data['hasil'] = $ressult;
+                // echo "<pre>";print_r($ressult);echo "<pre/>";exit();
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function detail_mhs_pmb($idpmb){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $url = 'http://pmb.unidayan.ac.id/index.php/kampus/get_detail_pmb/'.@$idpmb;
+                $url2 = 'http://pmb.unidayan.ac.id/index.php/kampus/get_dt_jurusan/'.@$idpmb;
+                $ressult = json_decode(file_get_contents($url));
+                $ressult2 = json_decode(file_get_contents($url2));
+                $data['title'] = 'Tambah '.$ressult->nama_mhs;
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['page'] = 'admin/mahasiswa/detail-pmb-v';
+                $data['hasil'] = $ressult;
+                $data['jurusan'] = $ressult2;
+                // echo "<pre>";print_r($ressult2);echo "<pre/>";exit();
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
 }
 ?>
