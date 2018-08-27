@@ -76,6 +76,11 @@ class Admin_m extends CI_Model
 		$query = $this->db->get($tabel);
 		return $query->result();
 	}
+	public function last_id_mhs(){
+		$this->db->select('id');
+		$query = $this->db->get('mahasiswa');
+		return $query->row();
+	}
 	function insert_data($tabel,$data){
 		$this->db->insert($tabel, $data);
 	}

@@ -325,8 +325,87 @@ class Mahasiswa extends CI_Controller {
                 $data['page'] = 'admin/mahasiswa/detail-pmb-v';
                 $data['hasil'] = $ressult;
                 $data['jurusan'] = $ressult2;
-                // echo "<pre>";print_r($ressult2);echo "<pre/>";exit();
+                echo "<pre>";print_r($ressult);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function create_mahasiswa(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $url = 'http://pmb.unidayan.ac.id/index.php/kampus/get_detail_pmb/'.@$idpmb;
+                $mhsdt = $url;
+                $ressult = json_decode(file_get_contents($url));
+                $dtsms = $this->Admin_m->detail_data('sms','id',$this->input->post('idsms'));
+                // echo $ressult->id_mhs;
+                if ($ressult == TRUE) {
+                    $datamhss = array(
+                        'nm_pd'      => $ressult->nama_mhs,
+                        'nim'      => ,
+                        'jk'      => $hasil->gender_mhs,
+                        'nik' => $ressult->nik,
+                        'tmpt_lahir' => $ressult->tmpt_lahir,
+                        'tgl_lahir' => $ressult->tgl_lhr_mhs,
+                        'nm_ayah' => $ressult->nama_ot_mhs,
+                        'tgl_lahir_ayah' => $ressult->tgl_lahir_ayah,
+                        'nik_ayah' => NULL,
+                        'id_jenjang_pendidikan_ayah' => $ressult->id_jenjang_pendidikan_ayah,
+                        'id_pekerjaan_ayah' => $ressult->id_pekerjaan_ayah,
+                        'id_penghasilan_ayah' => $ressult->id_penghasilan_ayah,
+                        'id_kebutuhan_khusus_ayah' => NULL,
+                        'nm_ibu_kandung' => $ressult->nm_ibu_kandung,
+                        'tgl_lahir_ibu' => $ressult->tgl_lahir_ibu,
+                        'nik_ibu' => NULL,
+                        'id_jenjang_pendidikan_ibu' => $ressult->id_jenjang_pendidikan_ibu,
+                        'id_pekerjaan_ibu' => $ressult->id_pekerjaan_ibu,
+                        'id_penghasilan_ibu' => $ressult->id_penghasilan_ibu,
+                        'id_kebutuhan_khusus_ibu' => NULL,
+                        'no_hp' => $ressult->no_hp_mhs,
+                        'email' => $ressult->email_mhs,
+                        'a_terima_kps' => 0,
+                        'no_kps' => NULL,
+                        'npwp' => NULL,
+                        'id_wil' => '999999',
+                        'id_jns_tinggal' => NULL,
+                        'id_agama' => $ressult->id_agama,
+                        'id_alat_transport' => NULL,
+                        'kewarganegaraan' => 'ID',
+                    );
+                    $this->Admin_m->insert_data('mahasiswa',$datamhss);
+                    // 
+                    $datamhs = array(
+                        'id_pd_siakad' => $this->Admin_m->last_id_mhs()->id,
+                        'kode_sms' =>$dtsms->kode_prodi,
+                        'id_sp'      => $this->Admin_m->info_pt(1)->kode_info_pt,
+                        'id_sms' => $dtsms->kode_prodi,
+                        'nipd' => trim($hasil['nipd']),
+                        'tgl_masuk_sp'      => $hasil['tgl_masuk_sp'],
+                        'tgl_keluar'      => NULL,
+                        'ket'      => NULL,
+                        'skhun' => NULL,
+                        'a_pernah_paud' => 0,
+                        'a_pernah_tk' => 0,
+                        'tgl_create' => date('Y-m-d'),
+                        'mulai_smt' => $ressult->angkatan.'1',
+                        'sks_diakui' => 0,
+                        'ipk' => 0,
+                        'id_jns_daftar' => 1,
+                        'id_jns_keluar' => NULL,
+                        'id_jalur_masuk' => 8,
+                        'id_pembiayaan' => 1,
+                    );
+                    // echo "<pre>";print_r($datamhs);echo "</pre>";exit();
+                    $this->Admin_m->insert_data('mahasiswa_pt',$datamhs);
+                }
             }
         }else{
             $pesan = 'Login terlebih dahulu';

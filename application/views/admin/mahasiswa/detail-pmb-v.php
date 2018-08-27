@@ -162,9 +162,14 @@
 					</tr>
 					<?php foreach ($jurusan as $data): ?>
 					  <tr>
-					    <td></td>
+					    <td><input type="hidden" name="id_mhs" value="<?php echo $data->id_mhs ?>"></td>
 					    <td>:</td>
-					    <td><?php echo $data->nama_jenjang_pend.' '.$data->nama_prodi; ?></td>
+					    <td>
+					    	<div class="custom-control custom-radio">
+					    	  <input type="radio" class="custom-control-input" name="id_pilihan" id="<?php echo $data->id_pilihan ?>" selected>
+					    	  <label class="custom-control-label" for="<?php echo $data->id_pilihan ?>"><?php echo $data->nama_jenjang_pend.' '.$data->nama_prodi; ?></label>
+					    	</div>
+					    </td>
 					  </tr>
 					<?php endforeach ?>
 				</table>
