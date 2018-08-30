@@ -464,7 +464,7 @@ class Mahasiswa extends CI_Controller {
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['page'] = 'admin/mahasiswa/bukti-regis-v';
                 $data['hasil'] = $ressult;
-                echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();
+                // echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();
                 // echo "<pre>";print_r($ressult);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
