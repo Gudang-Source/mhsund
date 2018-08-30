@@ -325,7 +325,8 @@ class Mahasiswa extends CI_Controller {
                 $data['page'] = 'admin/mahasiswa/detail-pmb-v';
                 $data['hasil'] = $ressult;
                 $data['jurusan'] = $ressult2;
-                echo "<pre>";print_r($ressult);echo "<pre/>";exit();
+                // echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();
+                // echo "<pre>";print_r($ressult);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
         }else{
@@ -334,7 +335,7 @@ class Mahasiswa extends CI_Controller {
             redirect(base_url('index.php/admin//login'));
         }
     }
-    public function create_mahasiswa(){
+    public function create_mahasiswa($idpmb){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin');
             if (!$this->ion_auth->in_group($level)) {
@@ -343,15 +344,19 @@ class Mahasiswa extends CI_Controller {
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $url = 'http://pmb.unidayan.ac.id/index.php/kampus/get_detail_pmb/'.@$idpmb;
+                $url2 = 'http://pmb.unidayan.ac.id/index.php/kampus/get_pil_jurusan/'.@$this->input->post('id_pilihan');
                 $mhsdt = $url;
                 $ressult = json_decode(file_get_contents($url));
-                $dtsms = $this->Admin_m->detail_data('sms','id',$this->input->post('idsms'));
+                $ressult2 = json_decode(file_get_contents($url2));
+                $dtsms = $this->Admin_m->detail_data('sms','kode_prodi',$ressult2->kode_prodi);
+                // echo "<pre>";print_r($dtsms);echo "<pre/>";exit();
                 // echo $ressult->id_mhs;
                 if ($ressult == TRUE) {
                     $datamhss = array(
                         'nm_pd'      => $ressult->nama_mhs,
-                        'nim'      => ,
-                        'jk'      => $hasil->gender_mhs,
+                        'id_mhs_pt'      => $ressult->noreg,
+                        'nim'      => $this->input->post('nim'),
+                        'jk'      => $ressult->gender_mhs,
                         'nik' => $ressult->nik,
                         'tmpt_lahir' => $ressult->tmpt_lahir,
                         'tgl_lahir' => $ressult->tgl_lhr_mhs,
@@ -383,12 +388,12 @@ class Mahasiswa extends CI_Controller {
                     $this->Admin_m->insert_data('mahasiswa',$datamhss);
                     // 
                     $datamhs = array(
-                        'id_pd_siakad' => $this->Admin_m->last_id_mhs()->id,
+                        'id_pd_siakad' => $this->Admin_m->last_id_mhs($ressult->noreg)->id,
                         'kode_sms' =>$dtsms->kode_prodi,
                         'id_sp'      => $this->Admin_m->info_pt(1)->kode_info_pt,
-                        'id_sms' => $dtsms->kode_prodi,
-                        'nipd' => trim($hasil['nipd']),
-                        'tgl_masuk_sp'      => $hasil['tgl_masuk_sp'],
+                        'id_sms' => $dtsms->id_sms,
+                        'nipd' => trim($this->input->post('nim')),
+                        'tgl_masuk_sp'      => date('Y-m-d'),
                         'tgl_keluar'      => NULL,
                         'ket'      => NULL,
                         'skhun' => NULL,
@@ -405,7 +410,63 @@ class Mahasiswa extends CI_Controller {
                     );
                     // echo "<pre>";print_r($datamhs);echo "</pre>";exit();
                     $this->Admin_m->insert_data('mahasiswa_pt',$datamhs);
+                    // buat akun
+                    $username = trim($this->input->post('nim'));
+                    $email = $ressult->email_mhs;
+                    $password = $this->Admin_m->acakangkahuruf(5);
+                    $group = array('2');
+                    $additional_data = array(
+                        'first_name' => $ressult->nama_mhs,
+                        'id_mhs' =>$this->Admin_m->last_id_mhs($ressult->noreg)->id,
+                        'last_name' => $this->Admin_m->info_pt(1)->nama_info_pt,
+                        'company' => $this->Admin_m->info_pt(1)->nama_info_pt,
+                        'phone' => '123456789',
+                        'repassword' => $password,
+                        );
+                    $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                    // buat aktifitas mahasiswa
+                    $aktvkul = array(
+                        'id_smt' => $ressult->angkatan.'1',
+                        'id_mhs_pt' =>$this->Admin_m->last_id_mhs_pt($username)->id,
+                        'id_stat_mhs' => 'A',
+                        'ips' => 0,
+                        'sks_smt' => 0,
+                        'ipk' => 0,
+                        'sks_total' => 0
+                        );
+                    $this->Admin_m->insert_data('kuliah_mahasiswa',$aktvkul);
+                    // alih lokasi
+                    $getttd = $this->Admin_m->detail_data('mahasiswa_pt','nipd',trim($this->input->post('nim')));
+                    $pesan = 'Mahasiswa Baru dengan NIM :'.trim($this->input->post('nim')).' berhasil ditambahkan';
+                    $this->session->set_flashdata('message', $pesan );
+                    redirect(base_url('index.php/admin/mahasiswa/buktitandaregis/'.$getttd->id));
                 }
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function buktitandaregis($idmhspt){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $ressult = $this->Mahasiswa_m->det_mhs($idmhspt);
+                echo "<pre>";print_r($ressult);echo "<pre/>";exit();
+                $data['title'] = 'Tambah ';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['page'] = 'admin/mahasiswa/bukti-regis-v';
+                $data['hasil'] = $ressult;
+                echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();
+                // echo "<pre>";print_r($ressult);echo "<pre/>";exit();
+                $this->load->view('admin/dashboard-v',$data);
             }
         }else{
             $pesan = 'Login terlebih dahulu';

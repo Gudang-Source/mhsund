@@ -143,36 +143,50 @@
 		<div class="card mt-4">
 			<div class="card-body">
 				<h6 class="text-info m-0">Data Pilihan Program Studi dan kelompok</h6><hr/>
-				<table width="100%">
-					<tr>
-					  <td>Pilihan Kelompok</td>
-					  <td>:</td>
-					  <td>
-					    <?php if ($hasil->kelompok == 1): ?>
-					      IPA
-					    <?php elseif ($hasil->kelompok == 2): ?>
-					      IPS
-					    <?php else: ?>
-					      IPC
-					    <?php endif ?>
-					  </td>
-					</tr>
-					<tr>
-						<td colspan="3">Pilihan Program Studi</td>
-					</tr>
-					<?php foreach ($jurusan as $data): ?>
-					  <tr>
-					    <td><input type="hidden" name="id_mhs" value="<?php echo $data->id_mhs ?>"></td>
-					    <td>:</td>
-					    <td>
-					    	<div class="custom-control custom-radio">
-					    	  <input type="radio" class="custom-control-input" name="id_pilihan" id="<?php echo $data->id_pilihan ?>" selected>
-					    	  <label class="custom-control-label" for="<?php echo $data->id_pilihan ?>"><?php echo $data->nama_jenjang_pend.' '.$data->nama_prodi; ?></label>
-					    	</div>
-					    </td>
-					  </tr>
-					<?php endforeach ?>
-				</table>
+				<form action="<?php echo base_url('index.php/admin/mahasiswa/create_mahasiswa/'.$hasil->id_mhs) ?>" method="post">
+					<table width="100%">
+						<tr>
+						  <td>Pilihan Kelompok</td>
+						  <td>:</td>
+						  <td>
+						    <?php if ($hasil->kelompok == 1): ?>
+						      IPA
+						    <?php elseif ($hasil->kelompok == 2): ?>
+						      IPS
+						    <?php else: ?>
+						      IPC
+						    <?php endif ?>
+						  </td>
+						</tr>
+						<tr>
+							<td colspan="3">Pilihan Program Studi</td>
+						</tr>
+						<?php foreach ($jurusan as $data): ?>
+						  <tr>
+						    <td><input type="hidden" name="id_mhs" value="<?php echo $data->id_mhs ?>"></td>
+						    <td>:</td>
+						    <td>
+						    	<div class="custom-control custom-radio">
+						    	  <input type="radio" class="custom-control-input" name="id_pilihan" id="<?php echo $data->id_pilihan ?>" value="<?php echo $data->id_pilihan ?>" selected>
+						    	  <label class="custom-control-label" for="<?php echo $data->id_pilihan ?>"><?php echo $data->nama_jenjang_pend.' '.$data->nama_prodi; ?></label>
+						    	</div>
+						    </td>
+						  </tr>
+						<?php endforeach ?>
+						<tr>
+						  	<td>Pemberian Nomor Stambuk/NIM</td>
+						  	<td>:</td>
+						  	<td>
+						  		<div class="form-group">
+						  			<label>Masukan Nomor Stambuk/NIM</label>
+						  			<input type="text" class="form-control" name="nim" placeholder="180221003" required>
+						  		</div>
+						  		<div class="alert alert-info"><b>Perhatian</b> Nomor Stambuk/NIM hanya dapat diisi dengan angka, selain itu sistem akan menolak.</div>
+						  	</td>
+						</tr>
+					</table>
+					<button type="submit" name="submit" value="submit" class="btn btn-success">Buat mahasiswa baru</button>
+				</form>
 			</div>
 		</div>
 	</div>

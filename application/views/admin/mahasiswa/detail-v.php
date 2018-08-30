@@ -210,14 +210,14 @@
 								<select class="form-control" name="id_penghasilan_ibu">
 									<option value="1">- Belum diisi -</option>
 									<?php foreach ($penghasilan as $data): ?>
-										<option value="<?php echo $data->id ?>"><?php echo $data->nm_penghasilan; ?></option>
+										<option value="<?php echo $data->id_penghasilan ?>"><?php echo $data->nm_penghasilan; ?></option>
 									<?php endforeach ?>
 								</select>
 							</div><hr/>
 						<?php else: ?>
 							<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
 								<select class="form-control" name="id_pekerjaan_ibu">
-									<option value="<?php echo $hasil->id_penghasilan_ibu ?>">- <?php echo $this->Admin_m->detail_data('penghasilan','id',$hasil->id_penghasilan_ibu)->nm_penghasilan; ?> -</option>
+									<option value="<?php echo $hasil->id_penghasilan_ibu ?>">- <?php echo $this->Admin_m->detail_data('penghasilan','id_penghasilan',$hasil->id_penghasilan_ibu)->nm_penghasilan; ?> -</option>
 									<?php foreach ($penghasilan as $data): ?>
 										<option value="<?php echo $data->id ?>"><?php echo $data->nm_penghasilan; ?></option>
 									<?php endforeach ?>
@@ -265,16 +265,16 @@
 								<select class="form-control" name="id_jenjang_pendidikan_ayah">
 									<option value="1">- Belum diisi -</option>
 									<?php foreach ($pendidikan as $data): ?>
-										<option value="<?php echo $data->id ?>"><?php echo $data->nm_jenj_didik; ?></option>
+										<option value="<?php echo $data->id_jenj_didik ?>"><?php echo $data->nm_jenj_didik; ?></option>
 									<?php endforeach ?>
 								</select>
 							</div><hr/>
 						<?php else: ?>
 							<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
 								<select class="form-control" name="id_jenjang_pendidikan_ayah">
-									<option value="<?php echo $hasil->id_jenjang_pendidikan_ayah ?>">- <?php echo $this->Admin_m->detail_data('jenjang_pendidikan','id',$hasil->id_jenjang_pendidikan_ayah)->nm_jenj_didik; ?> -</option>
+									<option value="<?php echo $hasil->id_jenjang_pendidikan_ayah ?>">- <?php echo $this->Admin_m->detail_data('jenjang_pendidikan','id_jenj_didik',$hasil->id_jenjang_pendidikan_ayah)->nm_jenj_didik; ?> -</option>
 									<?php foreach ($pendidikan as $data): ?>
-										<option value="<?php echo $data->id ?>"><?php echo $data->nm_jenj_didik; ?></option>
+										<option value="<?php echo $data->id_jenj_didik ?>"><?php echo $data->nm_jenj_didik; ?></option>
 									<?php endforeach ?>
 								</select>
 							</div><hr/>
@@ -312,9 +312,9 @@
 						<?php else: ?>
 							<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
 								<select class="form-control" name="id_penghasilan_ayah">
-									<option value="<?php echo $hasil->id_penghasilan_ayah ?>">- <?php echo $this->Admin_m->detail_data('penghasilan','id',$hasil->id_penghasilan_ayah)->nm_penghasilan; ?> -</option>
+									<option value="<?php echo $hasil->id_penghasilan_ayah ?>">- <?php echo $this->Admin_m->detail_data('penghasilan','id_penghasilan',$hasil->id_penghasilan_ayah)->nm_penghasilan; ?> -</option>
 									<?php foreach ($penghasilan as $data): ?>
-										<option value="<?php echo $data->id ?>"><?php echo $data->nm_penghasilan; ?></option>
+										<option value="<?php echo $data->id_penghasilan ?>"><?php echo $data->nm_penghasilan; ?></option>
 									<?php endforeach ?>
 								</select>
 							</div><hr/>

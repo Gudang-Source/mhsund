@@ -76,9 +76,16 @@ class Admin_m extends CI_Model
 		$query = $this->db->get($tabel);
 		return $query->result();
 	}
-	public function last_id_mhs(){
+	public function last_id_mhs($nim){
 		$this->db->select('id');
+		$this->db->where('id_mhs_pt', $nim);
 		$query = $this->db->get('mahasiswa');
+		return $query->row();
+	}
+	public function last_id_mhs_pt($nim){
+		$this->db->select('id');
+		$this->db->where('nipd', $nim);
+		$query = $this->db->get('mahasiswa_pt');
 		return $query->row();
 	}
 	function insert_data($tabel,$data){
@@ -91,5 +98,15 @@ class Admin_m extends CI_Model
 	public function update_data($tabel,$field,$id,$data){
 		$this->db->where($field, $id);
 		$this->db->update($tabel,$data);
+	}
+	function acakangkahuruf($panjang)
+	{
+	    $karakter= 'abcdefghijklmnopqrstuvwxyz123456789';
+	    $string = '';
+	    for ($i = 0; $i < $panjang; $i++) {
+	  $pos = rand(0, strlen($karakter)-1);
+	  $string .= $karakter{$pos};
+	    }
+	    return $string;
 	}
 }
