@@ -188,7 +188,7 @@ class Mahasiswa extends CI_Controller {
                 $data['page'] = 'admin/mahasiswa/aktivitas-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
-                $data['hasil'] = $this->Aktivitas_m->aktivitas_kuliah($id);
+                $data['hasil'] = $this->Aktivitas_m->aktivitas_kuliah($idmhs->idmhspt);
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
