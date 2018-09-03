@@ -25,7 +25,7 @@
 		$("#listmk").load("<?php echo base_url('index.php/admin/penawaran/listmk/'.$datamhs->idmhs.'/'.$lastsmt->id_smt.'/'.$kuri.'/'.$aksmt) ?>");
 		// 
 		$('#addmklist').html('Memuat data ...');
-		$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhs.'/'.$lastsmt->id_smt) ?>");
+		$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhspt.'/'.$lastsmt->id_smt) ?>");
 	});
 	function ambilmk(kode){
 		var data = $('#inputan'+kode).serialize();
@@ -39,7 +39,7 @@
 				$("#listmk").load("<?php echo base_url('index.php/admin/penawaran/listmk/'.$datamhs->idmhs.'/'.$lastsmt->id_smt.'/'.$kuri.'/'.$aksmt) ?>");
 				// 
 				$('#addmklist').html('harap tunggu sedang memuat ulang data ...');
-				$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhs.'/'.$lastsmt->id_smt) ?>");
+				$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhspt.'/'.$lastsmt->id_smt) ?>");
 			}
 		})
 	};
@@ -48,11 +48,11 @@
 			type: 'POST',
 			url: "<?php echo base_url('index.php/admin/penawaran/hapusmk/') ?>"+id,
 			success: function() {
-				$('#listmk').html('harap tunggu sedang memuat Ulang data ...');
+				$('#listmk').html('Memuat data ...');
 				$("#listmk").load("<?php echo base_url('index.php/admin/penawaran/listmk/'.$datamhs->idmhs.'/'.$lastsmt->id_smt.'/'.$kuri.'/'.$aksmt) ?>");
 				// 
-				$('#addmklist').html('harap tunggu sedang memuat ulang data ...');
-				$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhs.'/'.$lastsmt->id_smt) ?>");
+				$('#addmklist').html('Memuat data ...');
+				$("#addmklist").load("<?php echo base_url('index.php/admin/penawaran/showmkadd/'.$datamhs->idmhspt.'/'.$lastsmt->id_smt) ?>");
 			}
 		})
 	};

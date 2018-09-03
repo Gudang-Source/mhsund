@@ -44,8 +44,8 @@ class Penawaran extends CI_Controller {
         }
     }
     public function listmk($idmhs,$smt,$kuri,$aksmt){
-        $datamk = $this->Penawaran_m->get_mk_kur($kuri,$aksmt,$idmhs,$smt);
         $detail = $this->Penawaran_m->detail_mahasiswa($idmhs);
+        $datamk = $this->Penawaran_m->get_mk_kur($kuri,$aksmt,$detail->idmhspt,$smt);
         // echo "<pre/>";print_r($datamk);echo "<pre/>";exit();
         if ($datamk == TRUE) {
             foreach ($datamk as $data) {
@@ -64,7 +64,6 @@ class Penawaran extends CI_Controller {
                                             <input type="hidden" name="kode_mk" value="'.$data->kode_mk.'">
                                             <button type="button" class="btn btn-success btn-sm float-left" style="font-size: 12px" onclick="ambilmk('.$data->id.')"><i class="fa fa-shopping-cart"></i> Ambil</button>
                                         </form>
-                                        
                                     </td>
                                 </tr>
                             </table>
@@ -73,7 +72,7 @@ class Penawaran extends CI_Controller {
                  ';
             }
         }else{
-            echo '<div class="card mt-1"><div class="card-body p-2" style="font-size: 13px;"><div class="float-left">Belum memilih matakuliah</div><div class="float-right"><a href="#"><i class="fa fa-trash text-danger"></i></a></div></div></div>';
+            echo '<div class="card mt-1"><div class="card-body p-2"><div class="float-left">Tidak ada matakuliah atau semua mata kuliah sudah di ambil</div><div class="float-right"></div></div></div>';
         }
         
     }
@@ -86,7 +85,7 @@ class Penawaran extends CI_Controller {
             }
            
         }else{
-            echo '<div class="card mt-1"><div class="card-body p-2" style="font-size: 13px;"><div class="float-left">Belum memilih matakuliah</div><div class="float-right"><a href="#"><i class="fa fa-trash text-danger"></i></a></div></div></div>';
+            echo '<div class="card mt-1"><div class="card-body p-2"><div class="float-left">Belum memilih matakuliah</div><div class="float-right"></div></div></div>';
         }
         
     }
@@ -101,7 +100,7 @@ class Penawaran extends CI_Controller {
                 $post = $this->input->post();
                 $data = array(
                     'id_mhs_pt' => $post['id_mhs_pt'],
-                    'id_reg_pd' => $post['id_reg_pd'],
+                    // 'id_reg_pd' => $post['id_reg_pd'],
                     'nipd' => $post['nipd'],
                     'id_smt' => $post['id_smt'],
                     'kode_mk' => $post['kode_mk']

@@ -25,8 +25,8 @@ class Nilai extends CI_Controller {
                 $data['page'] = 'admin/nilai-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
-                $data['hasil'] = $this->Nilai_m->daftar_nilai($idmhs->id_pd_siakad);
-                // echo "<pre>";print_r( $data['hasil']);echo "<pre/>";exit();
+                $data['hasil'] = $this->Nilai_m->daftar_nilai($idmhs->idmhspt);
+                // echo "<pre>";print_r( $idmhs);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
         }else{
@@ -53,7 +53,7 @@ class Nilai extends CI_Controller {
                 $data['page'] = 'admin/nilai-semester-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
-                $data['hasil'] = $this->Nilai_m->aktivitas_kuliah($idmhs->id_pd_siakad);
+                $data['hasil'] = $this->Nilai_m->aktivitas_kuliah($idmhs->idmhspt);
                 // echo "<pre>";print_r( $data['hasil']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }

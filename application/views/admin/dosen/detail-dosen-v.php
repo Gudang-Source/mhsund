@@ -90,7 +90,7 @@
 									<div class="text-secondary bts-ats">Alamat Email</div>
 									<?php if ($hasil->email == NULL ): ?>
 										<div class="main-box border border-danger rounded bts-bwh2 bts-ats bg-light clearfix">
-											<input type="text" name="email" class="form-control" value="<?php echo $hasil->email_mhs ?>" placeholder="Harap isi data ini">
+											<input type="text" name="email" class="form-control" value="<?php echo $hasil->email ?>" placeholder="Harap isi data ini">
 											<span class="text-danger" style="font-size: 12px;">Data kosong/belum diisi</span>
 										</div>
 										<?php else: ?>
@@ -150,6 +150,46 @@
 								</div>
 								<button type="submit" name="submit" value="submit" class="btn btn-success btn-sm">Simpan data pribadi</button>
 							</div>
+						</form>
+					</div>
+					<div role="tabpanel" class="tab-pane fade show" id="2">
+						<form action="#" method="post">
+							<div class="main-box mybgcolor rounded clearfix bts-bwh2 bts-ats">
+								<div class="text-secondary">Nama Suami /  Istri</div>
+								<?php if ($hasil->nm_suami_istri == NULL ): ?>
+									<div class="main-box border border-danger rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="nm_suami_istri" class="form-control" value="<?php echo $hasil->nm_suami_istri ?>" placeholder="Harap isi data ini">
+										<span class="text-danger" style="font-size: 12px;">Data kosong/belum diisi</span>
+									</div>
+								<?php else: ?>
+									<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="nm_suami_istri" class="form-control" value="<?php echo $hasil->nm_suami_istri ?>" placeholder="Harap isi data ini">
+									</div>
+								<?php endif ?>
+								<div class="text-secondary">NIP Suami /  Istri</div>
+								<?php if ($hasil->nip_suami_istri == NULL ): ?>
+									<div class="main-box border border-danger rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="nip_suami_istri" class="form-control" value="<?php echo $hasil->nip_suami_istri ?>" placeholder="Harap isi data ini">
+										<span class="text-danger" style="font-size: 12px;">Data kosong/belum diisi</span>
+									</div>
+								<?php else: ?>
+									<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="nip_suami_istri" class="form-control" value="<?php echo $hasil->nip_suami_istri ?>" placeholder="Harap isi data ini">
+									</div>
+								<?php endif ?>
+								<div class="text-secondary">TMT PNS</div>
+								<?php if ($hasil->tmt_pns == NULL ): ?>
+									<div class="main-box border border-danger rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="tmt_pns" class="form-control" value="<?php echo $hasil->tmt_pns ?>" placeholder="Harap isi data ini">
+										<span class="text-danger" style="font-size: 12px;">Data kosong/belum diisi</span>
+									</div>
+								<?php else: ?>
+									<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
+										<input type="text" name="tmt_pns" class="form-control" value="<?php echo $hasil->tmt_pns ?>" placeholder="Harap isi data ini">
+									</div>
+								<?php endif ?>
+							</div>
+							<button type="submit" name="submit" value="submit" class="btn btn-success btn-sm">Simpan keluarga</button>
 						</form>
 					</div>
 				</div>
