@@ -130,9 +130,9 @@ class Dosen extends CI_Controller {
                 $data['aside'] = 'nav/nav';
                 $data['page'] = 'admin/dosen/detail-dosen-v';
                 $data['datamhs'] = $idmhs;
-                $data['pendidikan'] = $this->Admin_m->select_data('jenjang_pendidikan'); 
-                $data['pekerjaan'] = $this->Admin_m->select_data('pekerjaan'); 
-                $data['penghasilan'] = $this->Admin_m->select_data('penghasilan'); 
+                // $data['pendidikan'] = $this->Admin_m->select_data('jenjang_pendidikan'); 
+                // $data['pekerjaan'] = $this->Admin_m->select_data('pekerjaan'); 
+                // $data['penghasilan'] = $this->Admin_m->select_data('penghasilan'); 
                 // echo "<pre>";print_r($idmhs);echo "<pre/>";exit();
                 $data['hasil'] = $idmhs;
                 $this->load->view('admin/dashboard-v',$data);

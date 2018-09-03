@@ -55,7 +55,7 @@ class Dosen_m extends CI_Model
         return $this->db->get('dosen_pt')->num_rows();
     }
     public function select_all_data_dosen_tgs($sampai,$dari,$string,$prodi){
-    	$this->db->select('dosen_pt.*,dosen.nm_sdm,dosen_pt.id AS iddsnpt,dosen.nidn,sms.id AS idsms,sms.nm_lemb,sms.kode_prodi,tahun_ajaran.nm_thn_ajaran');
+    	$this->db->select('dosen_pt.*,dosen.nm_sdm,dosen.id,dosen_pt.id AS iddsnpt,dosen.nidn,sms.id AS idsms,sms.nm_lemb,sms.kode_prodi,tahun_ajaran.nm_thn_ajaran');
         if (!empty($string)) {
          $this->db->like('nm_sdm',$string);
          $this->db->or_like('nidn',$string);
@@ -74,5 +74,14 @@ class Dosen_m extends CI_Model
         $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
         $query = $this->db->get('sms');
         return $query->result();
+    }
+     public function detail_dosen($id){
+        // $this->db->select('dosen_pt.*,dosen.*,dosen_pt.id AS iddsnpt,dosen.nidn,sms.id AS idsms,sms.nm_lemb,sms.kode_prodi,tahun_ajaran.nm_thn_ajaran');
+        $this->db->where('dosen.id',$id);
+        // $this->db->join('dosen_pt', 'dosen_pt.id_dosen_siakad = dosen.id');
+        // $this->db->join('sms', 'sms.id_sms = dosen_pt.id_sms');
+        // $this->db->join('tahun_ajaran', 'tahun_ajaran.id_thn_ajaran = dosen_pt.id_thn_ajaran');
+        $query = $this->db->get('dosen');
+        return $query->row();
     }
 }
