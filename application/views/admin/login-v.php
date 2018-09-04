@@ -12,9 +12,15 @@
 </head>
 <body>
 	<div class="container">
+		
 		<div class="login-box border border-info">
+			<?php if ($this->session->flashdata('message')): ?>
+				<div class="alert alert-danger" role="alert" style="width: 100%">
+					<?php echo $this->session->flashdata('message');?>
+				</div>
+			<?php endif ?>
 			<h1 class="text-center border border-top-0 border-left-0 border-right-0 border-secondary bts-bwh">LOGIN</h1>
-			<form action="<?php echo base_url('index.php/login/proses_login/') ?>" method="post">
+			<form action="<?php echo base_url('index.php/admin/login/proses_login/') ?>" method="post">
 				<div class="form-group">
 					<label for="exampleInputEmail1">NIPD / Nomor Stambuk</label>
 					<input type="text" name="username" class="form-control form-control-lg border border-info" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter NIM">

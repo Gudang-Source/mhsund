@@ -35,7 +35,7 @@ class Login extends CI_Controller {
         //log the user out
         $logout = $this->ion_auth->logout();
         //redirect ke halaman sebelumnya
-        redirect(base_url('index.php/login'));
+        redirect(base_url('index.php/admin/login'));
     }
     function forgot_password()
         {
@@ -54,7 +54,7 @@ class Login extends CI_Controller {
 
                 if ($forgotten) { //if there were no errors
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect(base_url('index.php/login')); //we should display a confirmation page here instead of the login page
+                    redirect(base_url('index.php/admin/login')); //we should display a confirmation page here instead of the login page
                 }
                 else {
                     $this->session->set_flashdata('message', $this->ion_auth->errors());

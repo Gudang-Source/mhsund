@@ -50,7 +50,7 @@
 					<tr>
 						<td class="px-2">SEMESTER</td>
 						<td class="px-2">:</td>
-						<td class="px-2"><?php echo strtoupper($smt); ?></td>
+						<td class="px-2"><?php echo $this->Admin_m->detail_data('semester','id_smt',$smt)->nm_smt; ?></td>
 					</tr>
 				</table>
 			</div>
