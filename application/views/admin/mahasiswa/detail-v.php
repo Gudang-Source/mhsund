@@ -14,6 +14,7 @@
 				<li role="presentation" class="nav-item "><a href="#home" class="nav-link text-info active" aria-controls="home" role="tab" data-toggle="tab">Data Diri</a></li>
 				<li role="presentation" class="nav-item"><a href="#profile" class="nav-link text-info" aria-controls="profile" role="tab" data-toggle="tab">Orang Tua</a></li>
 				<li role="presentation" class="nav-item"><a href="#messages" class="nav-link text-info" aria-controls="messages" role="tab" data-toggle="tab">Wali</a></li>
+				<li role="presentation" class="nav-item"><a href="#akun" class="nav-link text-info" aria-controls="settings" role="tab" data-toggle="tab">Akun</a></li>
 				<li role="presentation" class="nav-item"><a href="#settings" class="nav-link text-info" aria-controls="settings" role="tab" data-toggle="tab">Status</a></li>
 			</ul>
 			<div class="clearfix"></div>
@@ -412,10 +413,56 @@
 					</div>
 				</form>
 			</div>
+			<div role="tabpanel" class="tab-pane fade" id="akun">
+				<form action="<?php echo base_url('index.php/admin/mahasiswa/proses_edit_akun') ?>" method="post">
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label for="first_name">Nama Depan</label>
+									<input type="hidden" name="id" value="<?php echo $akun->id ?>">
+									<input type="hidden" name="idmhs" value="<?php echo $hasil->idmhs ?>">
+									<div class="form-control"><?php echo $akun->first_name ?></div>
+									<small id="first_name" class="form-text text-muted">tidak dapat di edit</small>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="username">Username</label>
+							<div class="form-control"><?php echo $akun->username ?></div>
+							<small id="first_name" class="form-text text-muted">tidak dapat di edit</small>
+						</div>
+						<div class="form-group">
+							<label for="password">Password Saat Ini</label>
+							<div class="form-control border border-success text-success"><?php echo $akun->repassword; ?></div>
+							<small id="password" class="form-text text-muted">Password saat ini yang sedang digunakan</small>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" name="password" id="password" placeholder="*******">
+							<small id="password" class="form-text text-muted">Minimal 8 karakter atau lebih menggunakan kombinasi huruf dan angka</small>
+						</div>
+						<div class="form-group">
+							<label for="repassword">Ulangi Password</label>
+							<input type="password" class="form-control" name="repassword" id="repassword" placeholder="*******">
+							<small id="repassword" class="form-text text-muted">Masukan ulang password anda diatas</small>
+						</div>
+						<div class="form-group" style="margin-top: 30px;">
+							<label class="control-label">Groups</label><br/>
+							<?php foreach ($groups as $gg): ?>
+								<input type="checkbox" name="groups[]" value="<?php echo $gg->id; ?>" 
+								<?php foreach ($usergroups as $us): ?>
+									<?php if ($gg->id==$us){echo('checked');} ?>
+								<?php endforeach ?>
+								> <?php echo $gg->name; ?>
+							<?php endforeach ?>
+						</div>
+						<button type="submit" class="btn btn-success">Simpan</button>
+					</form>
+			</div>
 			<div role="tabpanel" class="tab-pane fade" id="settings">
 				<div class="main-box mybgcolor rounded clearfix bts-bwh2 bts-ats">
 					<div class="text-secondary">Nama Lengkap</div>
-					<div><?php echo $users->first_name; ?></div><hr/>
+					<div><?php echo $akun->first_name; ?></div><hr/>
 					<div class="text-secondary">Nomor Stambuk / NIPD</div>
 					<div><?php echo $hasil->nipd; ?></div><hr/>
 					<div class="text-secondary">ID Fedeer</div>

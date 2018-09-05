@@ -69,6 +69,7 @@ class Mahasiswa extends CI_Controller {
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $idmhs = $this->Profil_m->detail_mahasiswa($id);
+                $akun = $this->Admin_m->detail_data('users','id_mhs',$id);
                 $post = $this->input->get();
                 $data['title'] = strtoupper($idmhs->nm_pd);
                 $data['infopt'] = $this->Admin_m->info_pt(1);
@@ -77,9 +78,18 @@ class Mahasiswa extends CI_Controller {
                 $data['aside'] = 'nav/nav';
                 $data['page'] = 'admin/mahasiswa/detail-v';
                 $data['datamhs'] = $idmhs;
+                $data['akun'] = $akun;
                 $data['pendidikan'] = $this->Admin_m->select_data('jenjang_pendidikan'); 
                 $data['pekerjaan'] = $this->Admin_m->select_data('pekerjaan'); 
-                $data['penghasilan'] = $this->Admin_m->select_data('penghasilan'); 
+                $data['penghasilan'] = $this->Admin_m->select_data('penghasilan');
+                $data['groups'] = $this->ion_auth->groups()->result();
+                $data['usergroups'] = array();
+                if($usergroups = $this->ion_auth->get_users_groups($akun->id)->result()){
+                    foreach($usergroups as $group)
+                    {
+                        $data['usergroups'][] = $group->id;
+                    }
+                }
                 // echo "<pre>";print_r($idmhs);echo "<pre/>";exit();
                 $data['hasil'] = $this->Profil_m->detail_mahasiswa($id);
                 $this->load->view('admin/dashboard-v',$data);
@@ -90,6 +100,36 @@ class Mahasiswa extends CI_Controller {
             redirect(base_url('index.php/admin//login'));
         }
     }
+        public function proses_edit_akun(){
+            if ($this->ion_auth->logged_in()) {
+                $level=array('admin');
+                if (!$this->ion_auth->in_group($level)) {
+                    $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                    $this->session->set_flashdata('message', $pesan );
+                    redirect(base_url('index.php/admin/dashboard'));
+                }else{
+                    $id = $this->input->post('id');
+                    if ($this->input->post('password') == TRUE) {
+                        $additional_data = array(
+                        'password' => $this->input->post('password'),
+                        'repassword' =>$this->input->post('password'),
+                        );
+                    }
+                    $groups = $this->input->post('groups');
+                    $this->ion_auth->remove_from_group(NULL, $id);
+                    $this->ion_auth->add_to_group($groups, $id);
+                    $this->ion_auth->update($id, $additional_data);
+
+                    $pesan = 'user '.$this->input->post('username').' Berhasil di edit';
+                    $this->session->set_flashdata('message', $pesan );
+                    redirect(base_url('index.php/admin/mahasiswa/detail/'.$post['idmhs']));
+                }
+            }else{
+                $pesan = 'Login terlebih dahulu';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/login'));
+            }
+        }
     public function nilai($id){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin');

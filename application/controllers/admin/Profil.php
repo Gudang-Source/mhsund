@@ -26,7 +26,7 @@ class Profil extends CI_Controller {
                 $data['datamhs'] = $idmhs;
                 $data['pendidikan'] = $this->Admin_m->select_data('jenjang_pendidikan'); 
                 $data['pekerjaan'] = $this->Admin_m->select_data('pekerjaan'); 
-                $data['penghasilan'] = $this->Admin_m->select_data('penghasilan'); 
+                $data['penghasilan'] = $this->Admin_m->select_data('penghasilan');
                 // echo "<pre>";print_r($idmhs);echo "<pre/>";exit();
                 $data['hasil'] = $this->Profil_m->detail_mahasiswa($data['users']->id_mhs);
                 $this->load->view('admin/dashboard-v',$data);
@@ -128,6 +128,32 @@ class Profil extends CI_Controller {
             $pesan = 'Login terlebih dahulu';
             $this->session->set_flashdata('message', $pesan );
             redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function proses_edit_akun(){
+        if ($this->ion_auth->logged_in()) {
+            $level=array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $id = $this->input->post('id');
+                if ($this->input->post('password') == TRUE) {
+                    $additional_data = array(
+                    'password' => $this->input->post('password'),
+                    'repassword' =>$this->input->post('password'),
+                    );
+                }
+                $this->ion_auth->update($id, $additional_data);
+                $pesan = 'user '.$this->input->post('username').' Berhasil di edit';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/profil'));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin/login'));
         }
     }
 }
