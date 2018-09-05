@@ -32,7 +32,7 @@ class Aktivitas extends CI_Controller {
         }else{
             $pesan = 'Login terlebih dahulu';
             $this->session->set_flashdata('message', $pesan );
-            redirect(base_url('index.php/admin//login'));
+            redirect(base_url('index.php/admin/login'));
         }
     }
 }
