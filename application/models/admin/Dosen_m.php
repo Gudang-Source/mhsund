@@ -101,4 +101,27 @@ class Dosen_m extends CI_Model
         $query = $this->db->get('dosen');
         return $query->row();
     }
+    public function det_dosen_pt($id){
+        // $this->db->select('dosen_pt.*,dosen.*,dosen_pt.id AS iddsnpt,dosen.nidn,sms.id AS idsms,sms.nm_lemb,sms.kode_prodi,tahun_ajaran.nm_thn_ajaran');
+        $this->db->where('dosen_pt.id_dosen_siakad',$id);
+        $this->db->join('dosen', 'dosen.id = dosen_pt.id_dosen_siakad');
+        // $this->db->join('sms', 'sms.id_sms = dosen_pt.id_sms');
+        // $this->db->join('tahun_ajaran', 'tahun_ajaran.id_thn_ajaran = dosen_pt.id_thn_ajaran');
+        $query = $this->db->get('dosen_pt');
+        return $query->row();
+    }
+    function count_ajar_dosen_pt($id){
+        $this->db->where('dosen_pt.id_dosen_siakad',$id);
+        $this->db->join('dosen_pt', 'dosen_pt.id = ajar_dosen.id_dosen_pt_siakad');
+        return $this->db->get('ajar_dosen')->num_rows();
+    }
+    public function res_ajar_dosen($sampai,$dari,$id){
+        $this->db->where('dosen_pt.id_dosen_siakad',$id);
+        $this->db->join('dosen_pt', 'dosen_pt.id = ajar_dosen.id_dosen_pt_siakad');
+        $this->db->join('kelas_kuliah', 'kelas_kuliah.id = ajar_dosen.id_kls_siakad');
+        $this->db->join('sms', 'sms.id_sms = kelas_kuliah.id_sms');
+        // $this->db->join('mata_kuliah', 'tahun_ajaran.id_thn_ajaran = dosen_pt.id_thn_ajaran');
+        $query = $this->db->get('ajar_dosen',$sampai,$dari);
+        return $query->result();
+    }
 }
