@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Kurikulum extends CI_Controller {
+class Kelas extends CI_Controller {
 
     function __construct(){
         parent::__construct();
         $this->load->model('admin/Admin_m');
-        $this->load->model('admin/Kurikulum_m');
+        $this->load->model('admin/Kelas_m');
     }
     public function index(){
         if ($this->ion_auth->logged_in()) {
@@ -16,15 +16,15 @@ class Kurikulum extends CI_Controller {
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $post = $this->input->get();
-                $data['title'] = 'Kurikulum - '.$this->Admin_m->info_pt(1)->nama_info_pt;
+                $data['title'] = 'Kelas Kuliah - '.$this->Admin_m->info_pt(1)->nama_info_pt;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/admin';
-                $data['page'] = 'admin/kurikulum/main-v';
+                $data['page'] = 'admin/kelas/main-v';
                 // config paging
-                $config['base_url'] = base_url('index.php/admin/kurikulum/index/');
-                $config['total_rows'] = $this->Kurikulum_m->count_kurikulum(@$post['string']); //total row
+                $config['base_url'] = base_url('index.php/admin/kelas/index/');
+                $config['total_rows'] = $this->Kelas_m->jumlah_kelas_prodi(@$post['matakuliah'],@$post['semester']); //total row
                 $config['per_page'] = 10;  //show record per halaman
                 $config["uri_segment"] = 4;  // uri parameter
                 // style pagging
@@ -49,7 +49,7 @@ class Kurikulum extends CI_Controller {
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
                 // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
-                $data['hasil'] = $this->Kurikulum_m->select_all_kurikulum($config["per_page"], $data['offset'],@$post['string']);
+                $data['hasil'] = $this->Kelas_m->all_kelas_prodi($config["per_page"],$data['offset'],@$post['matakuliah'],@$post['semester']);
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $data['pagination'] = $this->pagination->create_links();
                 $this->load->view('admin/dashboard-v',$data);

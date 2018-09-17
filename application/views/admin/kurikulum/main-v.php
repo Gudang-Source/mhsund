@@ -2,7 +2,7 @@
 	<div class="card-body">
 		<h5 class="text-info m-0"><?php echo $title; ?></h5>
 		<p class="text-secondary" style="font-size: 13px;">Menampilkan dan mengelola data kurikulum</p>
-		<form action="<?php echo base_url('index.php/admin/matakuliah/') ?>" method="get">
+		<form action="<?php echo base_url('index.php/admin/Kurikulum/index/') ?>" method="get">
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -37,7 +37,7 @@
             <?php foreach ($hasil as $data): ?>
                 <tr>
                     <td class="text-center"><?php echo $no; ?></td>
-                    <td><a href="<?php echo base_url('index.php/admin/kurikulum/detail/'.$data->id) ?>" class="text-info"><?php echo $data->nm_kurikulum_sp; ?></a></td>
+                    <td><a href="<?php echo base_url('index.php/admin/kurikulum/detail/'.$data->idkur) ?>" class="text-info"><?php echo $data->nm_kurikulum_sp; ?></a></td>
                     <td><?php echo $data->nm_jenj_didik.' '.$data->nm_lemb; ?></td>
                     <td class="text-center"><?php echo $data->nm_smt; ?></td>
                     <td class="text-center"><?php echo $data->jml_sks_lulus; ?></td>
@@ -46,7 +46,11 @@
                     <td class="text-center"><?php echo $data->jml_sks_wajib; ?></td>
                     <td class="text-center"><?php echo $data->jml_sks_pilihan; ?></td>
                     <td><a href="<?php echo base_url('index.php/admin/kurikulum/detail/') ?>" class="text-info"><i class="ti ti-pencil"></i></a></td>
-                    <td><a href="#" class="text-danger"><i class="ti ti-trash"></i></a></td>
+                    <td>
+                        <?php if ($data->id_kurikulum_sp !== NULL): ?>
+                            <a href="#" data-toggle="tooltip" title="Tidak dapat dihapus"><i class="ti ti-trash text-secondary" ></i></a>
+                        <?php endif ?>
+                    </td>
                 </tr>
                 <?php $no++ ?>
                 <?php endforeach ?>         
