@@ -16,6 +16,10 @@
                         <small class="form-text text-muted">Gunakan Semester</small>
                     </div>
                 </div>
+                <div class="col">
+                	<label>&nbsp;</label><br/>
+                	<button type="submit" name="submit" value="submit" class="btn btn-success btn-sm">Cari</button>
+                </div>
             </div>
         </form>
 		<table class="table mt-4" style="font-size: 13px;">

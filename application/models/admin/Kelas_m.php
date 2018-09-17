@@ -21,6 +21,20 @@ class Kelas_m extends CI_Model
 		$this->db->update($tabel,$data);
 	}
 	// 
+    public function detail_data($tabel,$field,$id) {
+        $this->db->where($field, $id);
+        $query = $this->db->get($tabel);
+        return $query->row();
+    }
+    function tampil_dosen_limit($nama){
+        $this->db->select('dosen.nm_sdm,dosen.id,dosen.nidn,dosen_pt.id_dosen_siakad,dosen_pt.id_thn_ajaran,dosen_pt.id_sms,dosen_pt.id AS id_dosen,sms.id_sms,sms.nm_lemb');
+        $this->db->join('dosen', 'dosen.id = dosen_pt.id_dosen_siakad');
+        $this->db->join('sms', 'sms.id_sms = dosen_pt.id_sms');
+        $this->db->like('dosen.nm_sdm',$nama);
+        $this->db->limit('8');
+        $query = $this->db->get('dosen_pt');
+        return $query;
+    }
 	function count_kurikulum($string){
         if (!empty($string)) {
         	$this->db->like('nm_kurikulum_sp',$string);
@@ -39,6 +53,49 @@ class Kelas_m extends CI_Model
         $this->db->join('semester', 'semester.id_smt = kurikulum.id_smt');
         $this->db->order_by('kurikulum.id','desc');
         $query = $this->db->get('kurikulum',$sampai,$dari);
+        return $query->result();
+    }
+    public function detail_kelas($id){
+        $this->db->select('mata_kuliah.*,kelas_kuliah.*,kelas_kuliah.id AS id_kelas');
+        $this->db->join('mata_kuliah', 'mata_kuliah.id = kelas_kuliah.id_mk_siakad');
+        $this->db->where('kelas_kuliah.id', $id);
+        $query = $this->db->get('kelas_kuliah');
+        return $query->row();
+    }
+    public function get_prodi_by_kel($id) {
+        $this->db->select('kelas_kuliah.id,kelas_kuliah.id_kls,kelas_kuliah.id_sms,sms.id_sms,sms.kode_prodi');
+        $this->db->join('sms', 'sms.id_sms = kelas_kuliah.id_sms');
+        $this->db->where('.kelas_kuliah.id', $id);
+        $query = $this->db->get('kelas_kuliah');
+        return $query->row();
+    }
+    public function detail_prodi($kode) {
+        $this->db->where('kode_prodi', $kode);
+        $query = $this->db->get('sms');
+        return $query;
+    }
+    public function mahasiwakelas($id){
+        $this->db->select('nilai.*,mahasiswa.nm_pd,mahasiswa.id_mhs_pt,nilai.id as idnilai');
+        $this->db->join('mahasiswa_pt', 'mahasiswa_pt.id = nilai.id_mhs_pt');
+        $this->db->join('mahasiswa', 'mahasiswa.id = mahasiswa_pt.id_pd_siakad');
+        // $this->db->order_by('nipd','asc');
+        $this->db->where('id_kls_siakad', $id);
+        $query = $this->db->get('nilai');
+        return $query->result();
+    }
+    public function bobotnilai($id){
+        $this->db->where('id_sms', $id);
+        $this->db->order_by('nilai_huruf','asc');
+        $this->db->group_by('nilai_huruf');
+        $rs = $this->db->get('bobot_nilai');
+        return $rs->result();
+    }
+    public function dosenkls($id){
+        $this->db->select('ajar_dosen.*,dosen_pt.id,dosen_pt.id_dosen_siakad,dosen.id,dosen.nm_sdm,dosen.nidn,ajar_dosen.id AS id_ajr_dosen');
+        $this->db->where('id_kls_siakad',$id);
+        $this->db->join('dosen_pt', 'dosen_pt.id = ajar_dosen.id_dosen_pt_siakad');
+        $this->db->join('dosen', 'dosen_pt.id_dosen_siakad = dosen.id');
+        $query = $this->db->get('ajar_dosen');
         return $query->result();
     }
     function jumlah_kelas_prodi($string,$string2){

@@ -68,17 +68,20 @@ class Kelas extends CI_Controller {
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
-                $detail = $this->Kurikulum_m->detail_kurikulum($id);
+                $detail = $this->Kelas_m->detail_kelas($id);
                 $post = $this->input->get();
-                $data['title'] = 'Detail Kurikulum - '.strtoupper($detail->nm_kurikulum_sp);
+                $data['title'] = 'Detail Kelas - '.strtoupper($detail->nm_kls);
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
-                $data['page'] = 'admin/kurikulum/detail-v';
-                $data['datamhs'] = $detail;
-                
-                $data['hasil'] = $this->Kurikulum_m->mk_by_pord($id);
+                $data['page'] = 'admin/kelas/detail-v';
+                $data['nmkls'] = $detail;
+                $kode_prodi = $this->Kelas_m->get_prodi_by_kel($id)->kode_prodi;
+                $data['getprod'] = $this->Kelas_m->detail_prodi($kode_prodi)->row();
+                $data['detdosen'] = $this->Kelas_m->dosenkls($id);
+                $data['bobotnilai'] = $this->Kelas_m->bobotnilai($detail->id_sms);
+                $data['hasil'] = $this->Kelas_m->mahasiwakelas($id);
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
@@ -87,6 +90,45 @@ class Kelas extends CI_Controller {
             $this->session->set_flashdata('message', $pesan );
             redirect(base_url('index.php/admin//login'));
         }
+    }
+    public function edit_nilai($kls,$id){
+        if ($this->ion_auth->logged_in()){
+            $level= array('admin','fakultas','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+               $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+               $this->session->set_flashdata('message', $pesan );
+               redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $post = $this->input->post();
+                $nindeks = $this->Kelas_m->detail_data('bobot_nilai','nilai_huruf',$post['nilai_huruf'])->nilai_indeks;
+                // echo "<pre>";print_r($nindeks);echo "<pre/>";exit();
+                $edit = array(
+                    'nilai_huruf' => $post['nilai_huruf'],
+                    'nilai_indeks' => $nindeks,
+                );
+                $this->Kelas_m->edit('nilai','id',$id,$edit);
+                $pesan = 'Ubah nilai berhasi';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/detail/'.$kls));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function tampildosen(){
+        $nama = $this->input->post('kirimNama');
+        $data['hasil_limit']=$this->Kelas_m->tampil_dosen_limit($nama);
+        if($nama!=""){
+            foreach($data['hasil_limit']->result() as $result)
+            {
+                echo '<a class="list-group-item" onClick="pilih(\''.$result->id_dosen.'\');">
+                <b>'.$result->nidn.'</b> - '.$result->nm_sdm.' ('.$result->id_thn_ajaran.')</a>';
+            }
+        }else{
+           echo "error";        
+       }
     }
 }
 ?>
