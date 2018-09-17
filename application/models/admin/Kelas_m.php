@@ -16,7 +16,7 @@ class Kelas_m extends CI_Model
 		$this->db->where($field, $id);
 		$this->db->delete($tabel);
 	}
-	public function update_data($tabel,$field,$id,$data){
+	public function edit($tabel,$field,$id,$data){
 		$this->db->where($field, $id);
 		$this->db->update($tabel,$data);
 	}

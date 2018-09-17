@@ -69,17 +69,17 @@
 				<table width="100%" border="1" class="mt-2">
 					<thead>
 						<tr class="table-info">
-							<th class="text-center" rowspan="2">NO</th>
-							<th class="text-center" rowspan="2">NIDN</th>
-							<th class="text-center" rowspan="2">NAMA</th>
-							<th class="text-center" rowspan="2">JUMLAH SKS</th>
-							<th class="text-center" colspan="2">JUMLAH PERTEMUAN</th>
-							<th class="text-center" rowspan="2">STATUS</th>
-							<th class="text-center" rowspan="2">ACTION</th>
+							<th class="text-center px-1" rowspan="2">NO</th>
+							<th class="text-center px-1" rowspan="2">NIDN</th>
+							<th class="text-center px-1" rowspan="2">NAMA</th>
+							<th class="text-center px-1" rowspan="2">JUMLAH SKS</th>
+							<th class="text-center p-1" colspan="2">JUMLAH PERTEMUAN</th>
+							<th class="text-center px-1" rowspan="2">STATUS</th>
+							<th class="text-center px-1" rowspan="2">ACTION</th>
 						</tr>
 						<tr class="table-info">
-							<th class="text-center">RECANA</th>
-							<th class="text-center">REALISASI</th>
+							<th class="text-center  p-1">RECANA</th>
+							<th class="text-center  p-1">REALISASI</th>
 						</tr>
 					</thead>
 					<tbody>
