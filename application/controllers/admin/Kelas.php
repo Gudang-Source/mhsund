@@ -130,5 +130,140 @@ class Kelas extends CI_Controller {
            echo "error";        
        }
     }
+    public function proses_input_kelas(){
+        if ($this->ion_auth->logged_in()){
+            $post=$this->input->post();
+            $kodemk = $this->Kelas_m->detail_data('mata_kuliah','id',$post['id_mk_siakad']);
+             // echo "<pre>";print_r($post['id_mk_siakad']);echo "</pre>";exit();
+            $data=array(
+                'id_sms' => $post['id_sms'],
+                'id_smt' => $post['id_smt'],
+                'nm_kls' => $post['nm_kls'],
+                'sks_mk' => $kodemk->sks_mk,
+                'sks_tm' => $kodemk->sks_mk,
+                'sks_prak' => $kodemk->sks_prak,
+                'sks_prak_lap' => $kodemk->sks_prak_lap,
+                'sks_sim' => $kodemk->sks_sim,
+                'bahasan_case' => $post['bahasan'],
+                'a_selenggara_pditt' => 0,
+                'a_pengguna_pditt' => 0,
+                'kuota_pditt' => 0,
+                'tgl_mulai_koas' => $post['tgl_mulai'],
+                'tgl_selesai_koas' => $post['tgl_selesai'],
+                'id_mk_siakad' => $post['id_mk_siakad'],
+                'id_mk' => $kodemk->id_mk,
+            );
+            // echo "<pre>";print_r($data);echo "</pre>";exit();
+            $this->Kelas_m->insert_data('kelas_kuliah',$data);
+            $pesan = 'Kelas '.$post['kelas'].' '.$post['id_smt'].' '.$kodemk->nm_mk.' Berhasil dibuat';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin/kelas/'));
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function proses_tambah_dosen_kelas(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $post = $this->input->post();
+                $dosen = $this->Kelas_m->detail_data('dosen_pt','id',$post['id_dosen']);
+                $kelas = $this->Kelas_m->detail_data('kelas_kuliah','id',$post['id_kls_siakad']);
+                $datamhs = array(
+                    'id_jns_eval'      => 1,
+                    'id_dosen_pt_siakad' => $post['id_dosen'],
+                    'id_reg_ptk' => $dosen->id_reg_ptk,
+                    'id_kls'      => @$kelas->id_kls,
+                    'id_kls_siakad'      => $post['id_kls_siakad'],
+                    'sks_tm_subst' => $kelas->sks_tm,
+                    'sks_prak_subst' => $kelas->sks_prak,
+                    'sks_prak_lap_subst' => $kelas->sks_prak_lap,
+                    'sks_sim_subst' => $kelas->sks_sim,
+                    'sks_subst_tot'      => number_format($post['sks_subst_tot'],2),
+                    'jml_tm_renc' => $post['jml_tm_renc'],
+                    'jml_tm_real' => $post['jml_tm_real'],
+                );
+                // echo "<pre>";print_r($datamhs);echo "</pre>";exit();
+                $this->Kelas_m->insert_data('ajar_dosen',$datamhs);
+                $pesan = 'Dosen Berhasil ditambahkan';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/detail/'.$post['id_kls_siakad']));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function proses_edit_dosen_kelas(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $post = $this->input->post();
+                $datamhs = array(
+                    'sks_subst_tot'      => number_format($post['sks_subst_tot'],2),
+                    'jml_tm_renc' => $post['jml_tm_renc'],
+                    'jml_tm_real' => $post['jml_tm_real'],
+                );
+                // echo "<pre>";print_r($post);echo "</pre>";exit();
+                $this->Kelas_m->edit('ajar_dosen','id',$post['id_ajr_dosen'],$datamhs);
+                $pesan = 'Perubahan data dosen berhasil';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/detail/'.$post['id_kls_siakad']));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function delete_kelas($id){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $this->Kelas_m->delete_data('kelas_kuliah',$id);
+                $pesan = 'Data Berhasil di Hapus';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/'));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function delete_dosen_kelas($kelas,$id){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $this->Kelas_m->delete_data('ajar_dosen','id',$id);
+                $pesan = 'Data Berhasil di Hapus';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/detail/'.$kelas));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
 }
 ?>
