@@ -60,6 +60,61 @@ class Kelas extends CI_Controller {
             redirect(base_url('index.php/login'));
         }
     }
+    public function tmbhmhsbanyak($kls){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $post = $this->input->get();
+                $data['title'] = 'Tambah Mahasiswa Kelas - '.$this->Admin_m->info_pt(1)->nama_info_pt;
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/admin';
+                $data['page'] = 'admin/kelas/tambah-mhs-v';
+                // config paging
+                $config['base_url'] = base_url('index.php/admin/kelas/index/'.$kls.'/');
+                $config['total_rows'] = $this->Kelas_m->jumlah_mhs_prodi(@$post['nama'],@$post['angkatan']); //total row
+                $config['per_page'] = 10;  //show record per halaman
+                $config["uri_segment"] = 5;  // uri parameter
+                // style pagging
+                $config['first_link']       = 'Pertama';
+                $config['last_link']        = 'Terakhir';
+                $config['next_link']        = 'Selanjutnya';
+                $config['prev_link']        = 'Sebelumnya';
+                $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination pagination-sm justify-content-center">';
+                $config['full_tag_close']   = '</ul></nav></div>';
+                $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+                $config['num_tag_close']    = '</span></li>';
+                $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+                $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+                $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+                $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+                $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+                $config['prev_tagl_close']  = '</span>Next</li>';
+                $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+                $config['first_tagl_close'] = '</span></li>';
+                $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+                $config['last_tagl_close']  = '</span></li>';
+                $this->pagination->initialize($config);
+                $data['nmkls'] = $this->Kelas_m->detail_kelas($kls);
+                // $data['getprod'] = $this->Kelas_m->detail_prodi($sms)->row();
+                $data['offset'] = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+                // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
+                $data['hasil'] = $this->Kelas_m->get_mahasiswa($config["per_page"],$data['offset'],@$post['nama'],@$post['angkatan']);
+                // echo "<pre>";print_r($data['nmkls']);echo "<pre/>";exit();
+                $data['pagination'] = $this->pagination->create_links();
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
      public function detail($id){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin');
@@ -82,7 +137,7 @@ class Kelas extends CI_Controller {
                 $data['detdosen'] = $this->Kelas_m->dosenkls($id);
                 $data['bobotnilai'] = $this->Kelas_m->bobotnilai($detail->id_sms);
                 $data['hasil'] = $this->Kelas_m->mahasiwakelas($id);
-                // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
+                // echo "<pre>";print_r($data['getprod']);echo "<pre/>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
         }else{

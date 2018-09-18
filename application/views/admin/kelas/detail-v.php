@@ -102,13 +102,13 @@
 									</td>
 									<td class="text-center p-1">
 										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle btn-sm" type="button" id="addmhs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-												<i class="fa fa-plus"></i> Action
+											<button class="btn btn-light border-dark btn-sm dropdown-toggle btn-sm" type="button" id="addmhs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+												<i class="ti ti-plus"></i> Action
 												<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu" aria-labelledby="addmhs" id="addmhs">
-												<li><a href="#" data-toggle="modal" data-target="#<?php echo 'editdosen'.$data->id_ajr_dosen ?>"><i class="fa fa-pencil"></i> Edit</a></li>
-												<li><a href="<?php echo base_url('index.php/prodi/kelas/delete_dosen_kelas/'.$nmkls->id_kelas.'/'.$data->id_ajr_dosen) ?>" onclick="javascript: return confirm('Yakin menghapus Dosen ini ?')"><i class="fa fa-trash"></i> Hapus</a></li>
+												<li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#<?php echo 'editdosen'.$data->id_ajr_dosen ?>"><i class="ti ti-pencil"></i> Edit</a></li>
+												<li><a class="dropdown-item" href="<?php echo base_url('index.php/prodi/kelas/delete_dosen_kelas/'.$nmkls->id_kelas.'/'.$data->id_ajr_dosen) ?>" onclick="javascript: return confirm('Yakin menghapus Dosen ini ?')"><i class="ti ti-trash"></i> Hapus</a></li>
 											</ul>
 										</div>
 									</td>
@@ -152,7 +152,7 @@
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="addmhs" id="addmhs">
 						<li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#addexcel">Format Excel</a></li>
-						<li><a class="dropdown-item" href="<?php echo base_url('index.php/prodi/kelas/tmbhmhsbanyak/'.$getprod->kode_prodi.'/'.$nmkls->id_kelas);?>">Dari Database</a></li>
+						<li><a class="dropdown-item" href="<?php echo base_url('index.php/admin/kelas/tmbhmhsbanyak/'.$nmkls->id_kelas);?>">Dari Database</a></li>
 						<li><a class="dropdown-item"  href="#">Dari Penawaran Mahasiswa</a></li>
 						<?php if (!empty($nmkls->id_kls)): ?>
 							<li><a class="dropdown-item" href="<?php echo base_url('index.php/prodi/kelas/getmhskelasfromfeeder/'.$nmkls->id_kls.'/'.$nmkls->id_kelas) ?>">Dari Data Feeder</a></li>
@@ -190,7 +190,9 @@
 								<td class="text-center p-1">
 									<form action="<?php echo base_url('index.php/admin/kelas/edit_nilai/'.$nmkls->id_kelas.'/'.$data->idnilai) ?>" method="post">
 										<select class="form-control border-dark" style="width: 100px" name="nilai_huruf" onChange='this.form.submit()'>
-											<option value="<?php echo $data->nilai_huruf ?>"><?php echo $data->nilai_huruf; ?></option>
+											<?php if ($data->nilai_huruf == TRUE): ?>
+												<option value="<?php echo $data->nilai_huruf ?>"><?php echo $data->nilai_huruf; ?></option>
+											<?php endif ?>
 											<?php foreach ($bobotnilai as $nilai): ?>
 												<option value="<?php echo $nilai->nilai_huruf ?>"><?php echo $nilai->nilai_huruf.' ('.$nilai->nilai_indeks.')'; ?></option>
 											<?php endforeach ?>
@@ -281,11 +283,11 @@
 		<div class="modal fade addpangkat" id="<?php echo 'editdosen'.$data->id_ajr_dosen ?>" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="prfbox">
+					<div class="modal-body prfbox">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="tengah nobold"><i class="fa fa-plus u20 txtbiru"></i> Atur Kelas</h4>
 						<div class="prfbox">
-							<form action="<?php echo base_url('index.php/prodi/kelas/proses_edit_dosen_kelas/'); ?>" method="post">
+							<form action="<?php echo base_url('index.php/admin/kelas/proses_edit_dosen_kelas/'); ?>" method="post">
 								<div class="form-group">
 									<label>Nama Dosen</label>
 									<input type="hidden" name="id_ajr_dosen" value="<?php echo $data->id_ajr_dosen ?>">

@@ -124,4 +124,34 @@ class Kelas_m extends CI_Model
         $query = $this->db->get('kelas_kuliah',$limit,$start);
         return $query->result();
     }
+    public function jumlah_mhs_prodi($nama,$angkatan){
+        $this->db->select('mahasiswa_pt.*,mahasiswa.nm_pd,mahasiswa.id_mhs_pt');
+        if (!empty($nama)) {
+            $this->db->like('mahasiswa.nm_pd', $nama);
+            $this->db->or_like('nipd',$nama);
+        }
+        if (!empty($angkatan)) {
+            $this->db->where('mahasiswa_pt.mulai_smt', $angkatan);
+        }
+        $this->db->join('mahasiswa', 'mahasiswa.id_mhs_pt = mahasiswa_pt.id');
+        // $this->db->where('kode_sms', $id_prodi);
+        $this->db->from('mahasiswa_pt');
+        $rs = $this->db->count_all_results();
+        return $rs;
+    }
+    public function get_mahasiswa($limit,$start,$nama,$angkatan) {
+        $this->db->select('mahasiswa_pt.*,mahasiswa.nm_pd,mahasiswa.tmpt_lahir,mahasiswa.tgl_lahir,mahasiswa.id_mhs_pt');
+        if (!empty($nama)) {
+            $this->db->like('mahasiswa.nm_pd', $nama);
+            $this->db->or_like('nipd',$nama);
+        }
+        if (!empty($angkatan)) {
+            $this->db->where('mahasiswa_pt.mulai_smt', $angkatan);
+        }
+        $this->db->join('mahasiswa', 'mahasiswa.id = mahasiswa_pt.id_pd_siakad');
+        // $this->db->where('mahasiswa_pt.kode_sms', $sms);
+        $this->db->order_by('mahasiswa_pt.mulai_smt','desc');
+        $query = $this->db->get('mahasiswa_pt',$limit,$start);
+        return $query->result();
+    }
 }

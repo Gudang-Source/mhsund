@@ -35,4 +35,6 @@ class Aktivitas_m extends CI_Model
 		$query = $this->db->get('kuliah_mahasiswa');
 		return $query->result();
 	}
+	// 
+	
 }
