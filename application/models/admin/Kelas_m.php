@@ -5,10 +5,16 @@ class Kelas_m extends CI_Model
 		$query = $this->db->get($tabel);
 		return $query->result();
 	}
-	public function select_data_batch($tabel){
-		$query = $this->db->get($tabel);
+	public function prodi(){
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+		$query = $this->db->get('sms');
 		return $query->result();
 	}
+    public function semester(){
+        $this->db->order_by('id_smt','desc');
+        $query = $this->db->get('semester');
+        return $query->result();
+    }
 	function insert_data($tabel,$data){
 		$this->db->insert($tabel, $data);
 	}

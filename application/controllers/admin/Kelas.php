@@ -146,6 +146,31 @@ class Kelas extends CI_Controller {
             redirect(base_url('index.php/admin//login'));
         }
     }
+    public function tambah_kelas(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $data['title'] = 'Tambah Kelas Mengajar';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/nav';
+                $data['page'] = 'admin/kelas/tambah-kelas-v';
+                $data['prodi'] = $this->Kelas_m->prodi();
+                $data['semester'] = $this->Kelas_m->semester();
+                // echo "<pre>";print_r($data['getprod']);echo "<pre/>";exit();
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
     public function edit_nilai($kls,$id){
         if ($this->ion_auth->logged_in()){
             $level= array('admin','fakultas','prodi');
