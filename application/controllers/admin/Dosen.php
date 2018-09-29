@@ -62,7 +62,7 @@ class Dosen extends CI_Controller {
     }
     public function penugasan(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','dosen');
+            $level = array('admin','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -127,7 +127,7 @@ class Dosen extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                $data['aside'] = 'nav/dosen';
                 $data['page'] = 'admin/dosen/detail-dosen-v';
                 $data['datamhs'] = $idmhs;
                 // $data['pendidikan'] = $this->Admin_m->select_data('jenjang_pendidikan'); 
@@ -159,7 +159,7 @@ class Dosen extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/dosen';
                 $data['page'] = 'admin/dosen/detail-penugasan-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/dosen/detail_penugasan/'.$id.'/');
@@ -214,7 +214,7 @@ class Dosen extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/dosen';
                 $data['page'] = 'admin/dosen/aktivitas-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/dosen/aktivitas/'.$id.'/');

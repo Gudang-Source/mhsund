@@ -9,7 +9,7 @@ class Dashboard extends CI_Controller {
     }
     public function index($offset=0){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members');
+            $level = array('admin','members','dosen','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -23,14 +23,27 @@ class Dashboard extends CI_Controller {
                 if ($this->ion_auth->is_admin()) {
                      $data['aside'] = 'nav/admin';
                      $data['page'] = 'admin/beranda-admin-v';
+                     $idmhs = $this->Dashboard_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
+                     $data['datamhs'] = $idmhs;
+                }elseif ($this->ion_auth->in_group('dosen')) {
+                    $this->load->model('admin/Dosen_m');
+                    $data['aside'] = 'nav/dosen';
+                    $data['page'] = 'admin/beranda-dosen-v';
+                    $idmhs = $this->Dosen_m->detail_dosen($this->ion_auth->user()->row()->id_mhs);
+                    $data['datamhs'] = $idmhs;
+                }elseif ($this->ion_auth->in_group('prodi')) {
+                    // $this->load->model('admin/Prodi_m');
+                    $data['aside'] = 'nav/prodi';
+                    $data['page'] = 'admin/beranda-prodi-v';
                 }else{
-                     $data['aside'] = 'nav/nav';
-                     $data['page'] = 'admin/beranda-v';
+                 $data['aside'] = 'nav/nav';
+                 $data['page'] = 'admin/beranda-v';
+                 $idmhs = $this->Dashboard_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
+                 $data['datamhs'] = $idmhs;
                 }
-                $idmhs = $this->Dashboard_m->detail_mahasiswa($this->ion_auth->user()->row()->id_mhs);
-                $data['datamhs'] = $idmhs;
-                // pagging setting
                 $this->load->view('admin/dashboard-v',$data);
+                // pagging setting
+                
             }
         }else{
             $pesan = 'Login terlebih dahulu';

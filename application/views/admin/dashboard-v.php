@@ -116,6 +116,10 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php if ($this->ion_auth->is_admin()): ?>
                   <?php echo $users->username; ?>
+                  <?php elseif($this->ion_auth->in_group('dosen')): ?>
+                    <span class="text-success" style="font-size: 13px"><?php echo $datamhs->nidn.' - '.$datamhs->nm_sdm; ?></span>
+                    <?php elseif($this->ion_auth->in_group('prodi')): ?>
+                    <span class="text-success" style="font-size: 13px"><?php echo $users->username; ?></span>
                   <?php else: ?>
                     <span class="text-success" style="font-size: 13px"><?php echo $datamhs->nipd.' - '.$datamhs->nm_pd; ?></span>
                 <?php endif ?>
