@@ -22,7 +22,7 @@
                 </div>
             </div>
         </form>
-		<form action="<?php echo base_url('index.php/admin/kelas/prosesaddmhs/') ?>" method="post">
+		<form action="<?php echo base_url('index.php/admin/kelas/prosesaddmhs/'.$nmkls->id_kelas) ?>" method="post">
 			<table border="1" width="100%" class="bts-ats">
 				<thead>
 					<tr class="table-info">
@@ -41,7 +41,7 @@
 					<?php $no = $offset+1; ?>
 					<?php foreach ($hasil as $data): ?>
 						<tr>
-							<td class="text-center p-1"><input type="checkbox" class="pilih" name="pilih[]" value="<?php echo $data->id_mhs_pt ?>"></td>
+							<td class="text-center p-1"><input type="checkbox" class="pilih" name="pilih[]" value="<?php echo $data->idmhs ?>"></td>
 							<td class="text-center p-1"><?php echo $no; ?></td>
 							<td class="text-center p-1"><?php echo $data->nipd; ?></td>
 							<td class="p-1"><?php echo strtoupper($data->nm_pd); ?></td>

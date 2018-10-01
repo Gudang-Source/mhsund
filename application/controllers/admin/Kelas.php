@@ -224,16 +224,16 @@ class Kelas extends CI_Controller {
                 'sks_prak' => $kodemk->sks_prak,
                 'sks_prak_lap' => $kodemk->sks_prak_lap,
                 'sks_sim' => $kodemk->sks_sim,
-                'bahasan_case' => $post['bahasan'],
+                'bahasan_case' => $post['bahasan_case'],
                 'a_selenggara_pditt' => 0,
                 'a_pengguna_pditt' => 0,
                 'kuota_pditt' => 0,
-                'tgl_mulai_koas' => $post['tgl_mulai'],
-                'tgl_selesai_koas' => $post['tgl_selesai'],
+                'tgl_mulai_koas' => $post['tgl_mulai_koas'],
+                'tgl_selesai_koas' => $post['tgl_selesai_koas'],
                 'id_mk_siakad' => $post['id_mk_siakad'],
                 'id_mk' => $kodemk->id_mk,
             );
-            // echo "<pre>";print_r($data);echo "</pre>";exit();
+            echo "<pre>";print_r($data);echo "</pre>";exit();
             $this->Kelas_m->insert_data('kelas_kuliah',$data);
             $pesan = 'Kelas '.$post['kelas'].' '.$post['id_smt'].' '.$kodemk->nm_mk.' Berhasil dibuat';
             $this->session->set_flashdata('message', $pesan );
@@ -307,6 +307,46 @@ class Kelas extends CI_Controller {
             redirect(base_url('index.php/login'));
         }
     }
+     public function prosesaddmhs($kls){
+        if ($this->ion_auth->logged_in()){
+            $level= array('admin','fakultas','prodi');
+            if (!$this->ion_auth->in_group($level)) {
+               $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+               $this->session->set_flashdata('message', $pesan );
+               redirect(base_url('index.php/admin/dashboard_c'));
+            }else{
+                $dtpilih = $this->input->post('pilih');
+                // echo "<pre>";print_r($dtpilih);echo "<pre/>";exit();
+                $kelas = $this->Kelas_m->detail_data('kelas_kuliah','id',$kls);
+                $matakuliah = $this->Kelas_m->detail_data('mata_kuliah','id',$kelas->id_mk_siakad);
+                foreach ($dtpilih as $data) {
+                    $cekmhs = $this->Kelas_m->cek_mahasiswa_di_kelas($kls,$data,$kelas->id_smt);
+                    // echo "<pre>";print_r($cekmhs);echo "<pre/>";exit();
+                    if ($cekmhs == FALSE) {
+                        $mahasiswa = $this->Kelas_m->detail_data('mahasiswa_pt','id',$data);
+                        $datamhs = array(
+                            'id_kls' => @$kelas->id_kls,
+                            'id_reg_pd' => @$mahasiswa->id_reg_pd,
+                            'id_kls_siakad'=>$kls,
+                            'id_mhs_pt' =>$data,
+                            'nipd' => $mahasiswa->nipd,
+                            'id_smt' => $kelas->id_smt,
+                            'kode_mk' => $matakuliah->kode_mk,
+                        );
+                        // echo "<pre>";print_r($datamhs);echo "<pre/>";exit();
+                        $this->Kelas_m->insert_data('nilai',$datamhs);
+                    }
+                }
+                $pesan = 'Mahasiswa berhasil ditambahkan';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/kelas/detail/'.$kls));
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
     public function delete_kelas($id){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin','prodi');
@@ -344,6 +384,26 @@ class Kelas extends CI_Controller {
             $this->session->set_flashdata('message', $pesan );
             redirect(base_url('index.php/login'));
         }
+    }
+    public function getmk(){
+        $buah = $_GET["query"];
+        $cari = $this->Kelas_m->cari_mk($buah);
+        foreach ($cari as $data) {
+            $output['suggestions'][] = [
+                'value' => $data->kode_mk.' - '.$data->nm_mk,
+                'nm_mk'  => $data->nm_mk,
+                'idmk'  => $data->id,
+                'kode_mk'  => $data->kode_mk
+            ];
+        }
+        if (!empty($output)) {
+                    // Encode ke format JSON.
+            echo json_encode($output);
+        }
+    }
+    public function create_kls(){
+        $post = $this->input->post();
+        echo "<pre>";print_r($post);echo "<pre/>";exit();
     }
 }
 ?>

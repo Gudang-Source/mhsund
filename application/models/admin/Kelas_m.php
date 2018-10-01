@@ -146,7 +146,7 @@ class Kelas_m extends CI_Model
         return $rs;
     }
     public function get_mahasiswa($limit,$start,$nama,$angkatan) {
-        $this->db->select('mahasiswa_pt.*,mahasiswa.nm_pd,mahasiswa.tmpt_lahir,mahasiswa.tgl_lahir,mahasiswa.id_mhs_pt');
+        $this->db->select('mahasiswa_pt.*,mahasiswa.nm_pd,mahasiswa.tmpt_lahir,mahasiswa.tgl_lahir,mahasiswa_pt.id AS idmhs');
         if (!empty($nama)) {
             $this->db->like('mahasiswa.nm_pd', $nama);
             $this->db->or_like('nipd',$nama);
@@ -159,5 +159,21 @@ class Kelas_m extends CI_Model
         $this->db->order_by('mahasiswa_pt.mulai_smt','desc');
         $query = $this->db->get('mahasiswa_pt',$limit,$start);
         return $query->result();
+    }
+    public function cari_mk($post) {
+        $this->db->like('nm_mk',$post);
+        $this->db->or_like('kode_mk',$post);
+        $this->db->group_by('kode_mk');
+        $this->db->limit(10);
+        $this->db->order_by('nm_mk','asc');
+        $query = $this->db->get('mata_kuliah');
+        return $query->result();
+    }
+    public function cek_mahasiswa_di_kelas($kls,$idmhs,$smt){
+        $this->db->where('id_kls_siakad',$kls);
+        $this->db->where('id_mhs_pt',$idmhs);
+        $this->db->where('id_smt',$smt);
+        $query = $this->db->get('nilai');
+        return $query->row();
     }
 }
