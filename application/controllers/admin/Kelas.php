@@ -9,7 +9,7 @@ class Kelas extends CI_Controller {
     }
     public function index(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','prodi');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -62,7 +62,7 @@ class Kelas extends CI_Controller {
     }
     public function tmbhmhsbanyak($kls){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','prodi');
+            $level = array('admin','dosen','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -117,7 +117,7 @@ class Kelas extends CI_Controller {
     }
      public function detail($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','dosen','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -148,7 +148,7 @@ class Kelas extends CI_Controller {
     }
     public function tambah_kelas(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','dosen','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -173,7 +173,7 @@ class Kelas extends CI_Controller {
     }
     public function edit_nilai($kls,$id){
         if ($this->ion_auth->logged_in()){
-            $level= array('admin','fakultas','prodi');
+            $level= array('admin','fakultas','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                $this->session->set_flashdata('message', $pesan );
@@ -246,7 +246,7 @@ class Kelas extends CI_Controller {
     }
     public function proses_tambah_dosen_kelas(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','prodi');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -283,7 +283,7 @@ class Kelas extends CI_Controller {
     }
     public function proses_edit_dosen_kelas(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','prodi');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -309,7 +309,7 @@ class Kelas extends CI_Controller {
     }
      public function prosesaddmhs($kls){
         if ($this->ion_auth->logged_in()){
-            $level= array('admin','fakultas','prodi');
+            $level= array('admin','fakultas','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                $this->session->set_flashdata('message', $pesan );
@@ -349,7 +349,7 @@ class Kelas extends CI_Controller {
     }
     public function delete_kelas($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','prodi');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -368,7 +368,7 @@ class Kelas extends CI_Controller {
     }
     public function delete_dosen_kelas($kelas,$id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','prodi');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
