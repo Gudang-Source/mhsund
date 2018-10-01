@@ -15,4 +15,9 @@ class Dashboard_m extends CI_Model {
 		$query = $this->db->get('mahasiswa');
 		return $query->row();
 	}
+	public function detail_dosen($id){
+		$this->db->where('dosen.id',$id);
+		$query = $this->db->get('dosen');
+		return $query->row();
+	}
 }

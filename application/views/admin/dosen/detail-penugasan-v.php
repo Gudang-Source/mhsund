@@ -1,10 +1,14 @@
 <div class="card mt-4">
 	<div class="card-body">
 		<div class="row">
-			<div class="col-md-2">
-				<?php $this->view('nav/dosen'); ?>
-			</div>
-			<div class="col-md-10">
+			<?php if ($this->ion_auth->is_admin()): ?>
+				<div class="col-md-2">
+					<?php $this->view('nav/dosen'); ?>
+				</div>
+				<div class="col-md-10">
+					<?php else: ?>
+						<div class="col">
+						<?php endif ?>
 				<?php $this->view('admin/dosen/top-dosen-v'); ?>
 				<table class="table table-striped" style="font-size: 13px">
 					<thead>

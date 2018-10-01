@@ -217,7 +217,7 @@
 							</div><hr/>
 						<?php else: ?>
 							<div class="main-box mybgcolor rounded bts-bwh2 bts-ats bg-light clearfix">
-								<select class="form-control" name="id_pekerjaan_ibu">
+								<select class="form-control" name="id_penghasilan_ibu">
 									<option value="<?php echo $hasil->id_penghasilan_ibu ?>">- <?php echo $this->Admin_m->detail_data('penghasilan','id_penghasilan',$hasil->id_penghasilan_ibu)->nm_penghasilan; ?> -</option>
 									<?php foreach ($penghasilan as $data): ?>
 										<option value="<?php echo $data->id ?>"><?php echo $data->nm_penghasilan; ?></option>

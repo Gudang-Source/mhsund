@@ -9,7 +9,7 @@ class Kurikulum extends CI_Controller {
     }
     public function index(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','prodi');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -20,7 +20,7 @@ class Kurikulum extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kurikulum/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/kurikulum/index/');
