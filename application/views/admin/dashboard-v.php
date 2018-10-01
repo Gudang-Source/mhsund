@@ -94,6 +94,8 @@
               <div class="dropdown-menu" aria-labelledby="setting" style="font-size: 13px;">
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/skala_nilai') ?>">Sanbox</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/setting/periode_kuliah') ?>">Setting Periode</a>
+                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/setting/user_prodi') ?>">Akun Prodi</a>
+                  <a class="dropdown-item" href="<?php echo base_url('index.php/admin/setting/periode_kuliah') ?>">Akun Dosen</a>
               </div>
             </li>
           </ul>

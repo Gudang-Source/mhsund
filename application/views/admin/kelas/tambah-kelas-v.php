@@ -3,6 +3,8 @@
 	.autocomplete-suggestions{
 		background-color: white;
 		border: 1px solid #eeeeee;
+		font-size: 13px;
+		padding: 14px;
 	}
 </style>
 <script type="text/javascript" src="<?php echo base_url('asset/js/autocomplete.js') ?>"></script>
@@ -60,12 +62,12 @@
 				<div class="col">
 					<div class="form-group">
 						<label>Tanggal Selesai</label>
-						<input type="text" class="form-control" name="tgl_selesai_koas" placeholder="Masukan Nama Kelas">
+						<input type="text" class="form-control" name="tgl_selesai_koas" placeholder="masukan tanggal selesai">
 						<small class="form-text text-muted">hanya dapat menggunakan angka dan huruf</small>
 					</div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-success mt-4" id="tombol"><i class="ti ti-plus"></i> Buat kelas</button>
+			<button type="submit" class="btn btn-success mt-4" id="tombol"><i class="ti ti-plus"></i> Simpan Data</button>
 		</form>
 	</div>
 </div>

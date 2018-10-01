@@ -20,7 +20,7 @@ class Kelas extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kelas/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/kelas/index/');
@@ -73,7 +73,7 @@ class Kelas extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kelas/tambah-mhs-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/kelas/index/'.$kls.'/');
@@ -129,7 +129,7 @@ class Kelas extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kelas/detail-v';
                 $data['nmkls'] = $detail;
                 $kode_prodi = $this->Kelas_m->get_prodi_by_kel($id)->kode_prodi;
@@ -158,7 +158,7 @@ class Kelas extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kelas/tambah-kelas-v';
                 $data['prodi'] = $this->Kelas_m->prodi();
                 $data['semester'] = $this->Kelas_m->semester();
@@ -233,7 +233,7 @@ class Kelas extends CI_Controller {
                 'id_mk_siakad' => $post['id_mk_siakad'],
                 'id_mk' => $kodemk->id_mk,
             );
-            echo "<pre>";print_r($data);echo "</pre>";exit();
+            // echo "<pre>";print_r($data);echo "</pre>";exit();
             $this->Kelas_m->insert_data('kelas_kuliah',$data);
             $pesan = 'Kelas '.$post['kelas'].' '.$post['id_smt'].' '.$kodemk->nm_mk.' Berhasil dibuat';
             $this->session->set_flashdata('message', $pesan );

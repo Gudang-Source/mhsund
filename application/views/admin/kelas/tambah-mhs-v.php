@@ -2,28 +2,28 @@
 	<div class="card-body">
 		<form action="<?php echo base_url('index.php/admin/kelas/tmbhmhsbanyak/'.$nmkls->id_kelas) ?>" method="get">
             <div class="row">
-                <div class="col">
+                <div class="col-5">
                     <div class="form-group">
-                        <label><i class="ti ti-search"></i> Pencarian Berdasarkan Nama</label>
+                        <label><i class="ti ti-search"></i> Nama / NIM</label>
                         <input type="text" name="nama" class="form-control form-control-sm" placeholder="Masukan nama mahasiswa atau nomor stambuk">
                         <small class="form-text text-muted">Gunakan nama Mahasiswa atau NIM</small>
                     </div>
                 </div>
-                 <div class="col">
+                 <div class="col-5">
                     <div class="form-group">
-                        <label><i class="ti ti-search"></i> Pencarian Berdasarkan Angkatan</label>
+                        <label><i class="ti ti-search"></i> Angkatan</label>
                         <input type="text" name="angkatan" class="form-control form-control-sm" placeholder="Masukan Angkatan">
                         <small class="form-text text-muted">Gunakan Semester</small>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-2">
                 	<label>&nbsp;</label><br/>
                 	<button type="submit" name="submit" value="submit" class="btn btn-success btn-sm">Cari</button>
                 </div>
             </div>
         </form>
 		<form action="<?php echo base_url('index.php/admin/kelas/prosesaddmhs/'.$nmkls->id_kelas) ?>" method="post">
-			<table border="1" width="100%" class="bts-ats">
+			<table border="1" width="100%" class="bts-ats" style="font-size: 13px;">
 				<thead>
 					<tr class="table-info">
 						<th rowspan="2" class="text-center px-1"></th>
