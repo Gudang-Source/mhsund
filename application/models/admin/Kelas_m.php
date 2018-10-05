@@ -115,6 +115,18 @@ class Kelas_m extends CI_Model
         $this->db->join('mata_kuliah', 'mata_kuliah.id = kelas_kuliah.id_mk_siakad');
         return $this->db->get('kelas_kuliah')->num_rows();
     }
+    function jumlah_kelas_prodi2($prodi,$string,$string2){
+        if (!empty($string)) {
+            $this->db->like('mata_kuliah.nm_mk',$string);
+        }
+        if (!empty($string2)) {
+            $this->db->where('kelas_kuliah.id_smt',$string2);
+        }
+        $this->db->where('kelas_kuliah.id_sms',$prodi);
+        // $this->db->where('kelas_kuliah.id_sms',$id);
+        $this->db->join('mata_kuliah', 'mata_kuliah.id = kelas_kuliah.id_mk_siakad');
+        return $this->db->get('kelas_kuliah')->num_rows();
+    }
     public function all_kelas_prodi($limit,$start,$string,$string2){
         $this->db->select('kelas_kuliah.*,mata_kuliah.*,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik,kelas_kuliah.id AS id_kelas');
         if (!empty($string)) {
@@ -123,6 +135,22 @@ class Kelas_m extends CI_Model
         if (!empty($string2)) {
             $this->db->where('kelas_kuliah.id_smt',$string2);
         }
+        $this->db->join('mata_kuliah', 'mata_kuliah.id = kelas_kuliah.id_mk_siakad');
+        $this->db->join('sms', 'sms.id_sms = kelas_kuliah.id_sms');
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        $this->db->order_by('kelas_kuliah.id_smt,kelas_kuliah.id','desc');
+        $query = $this->db->get('kelas_kuliah',$limit,$start);
+        return $query->result();
+    }
+     public function all_kelas_prodi2($prodi,$limit,$start,$string,$string2){
+        $this->db->select('kelas_kuliah.*,mata_kuliah.*,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik,kelas_kuliah.id AS id_kelas');
+        if (!empty($string)) {
+            $this->db->like('mata_kuliah.nm_mk',$string);
+        }
+        if (!empty($string2)) {
+            $this->db->where('kelas_kuliah.id_smt',$string2);
+        }
+        $this->db->where('kelas_kuliah.id_sms',$prodi);
         $this->db->join('mata_kuliah', 'mata_kuliah.id = kelas_kuliah.id_mk_siakad');
         $this->db->join('sms', 'sms.id_sms = kelas_kuliah.id_sms');
         $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');

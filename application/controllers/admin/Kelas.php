@@ -24,7 +24,12 @@ class Kelas extends CI_Controller {
                 $data['page'] = 'admin/kelas/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/kelas/index/');
-                $config['total_rows'] = $this->Kelas_m->jumlah_kelas_prodi(@$post['matakuliah'],@$post['semester']); //total row
+                if (!$this->ion_auth->in_group('admin')) {
+                    $kodeprod = $this->Admin_m->detail_data('sms','kode_prodi',$data['users']->id_mhs)->id_sms;
+                    $config['total_rows'] = $this->Kelas_m->jumlah_kelas_prodi2($kodeprod,@$post['matakuliah'],@$post['semester']);
+                }else{
+                    $config['total_rows'] = $this->Kelas_m->jumlah_kelas_prodi(@$post['matakuliah'],@$post['semester']);
+                }
                 $config['per_page'] = 10;  //show record per halaman
                 $config["uri_segment"] = 4;  // uri parameter
                 // style pagging
@@ -49,7 +54,11 @@ class Kelas extends CI_Controller {
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
                 // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
-                $data['hasil'] = $this->Kelas_m->all_kelas_prodi($config["per_page"],$data['offset'],@$post['matakuliah'],@$post['semester']);
+                if (!$this->ion_auth->in_group('admin')) {
+                    $data['hasil'] = $this->Kelas_m->all_kelas_prodi2($kodeprod,$config["per_page"],$data['offset'],@$post['matakuliah'],@$post['semester']);
+                }else{
+                    $data['hasil'] = $this->Kelas_m->all_kelas_prodi($config["per_page"],$data['offset'],@$post['matakuliah'],@$post['semester']);
+                }
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $data['pagination'] = $this->pagination->create_links();
                 $this->load->view('admin/dashboard-v',$data);
