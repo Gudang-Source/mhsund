@@ -57,7 +57,7 @@
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/matakuliah') ?>">Mata Kuliah</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/Kurikulum') ?>">Kurikulum</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/kelas') ?>">Kelas Perkuliahan</a>
-                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/nilai') ?>">Nilai Perkuliahan</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/nilai/nilaimhs') ?>">Nilai Perkuliahan</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/kuliah_mahasiswa') ?>">Aktivitas Kuliah Mahasiswa</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/mahasiswa/lulus') ?>">Mahasiswa Lulus / DO</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/mahasiswa/aktivitas') ?>">Aktivitas Mahasiswa</a>

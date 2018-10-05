@@ -51,4 +51,33 @@ class Nilai_m extends CI_Model
 		$query = $this->db->get('kuliah_mahasiswa');
 		return $query->result();
 	}
+	//
+	public function count_all_nilai($string){
+		$this->db->select('nilai.*,mahasiswa.nm_pd,mahasiswa_pt.nipd,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik');
+		$this->db->join('mahasiswa_pt', 'mahasiswa_pt.id = nilai.id_mhs_pt');
+	    $this->db->join('mahasiswa', 'mahasiswa.id = mahasiswa_pt.id_pd_siakad');
+	    $this->db->join('sms', 'sms.kode_prodi = mahasiswa_pt.kode_sms');
+	    $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+		if (!empty($string)) {
+	     $this->db->like('nm_pd',$string);
+	     $this->db->or_like('nipd',$string);
+	    }
+		$this->db->from('nilai');
+		$rs = $this->db->count_all_results();
+		return $rs;
+	}
+	public function select_all_nilai($sampai,$dari,$string){
+		$this->db->select('nilai.*,mahasiswa.nm_pd,mahasiswa_pt.nipd,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik');
+		$this->db->join('mahasiswa_pt', 'mahasiswa_pt.id = nilai.id_mhs_pt');
+	    $this->db->join('mahasiswa', 'mahasiswa.id = mahasiswa_pt.id_pd_siakad');
+	    $this->db->join('sms', 'sms.kode_prodi = mahasiswa_pt.kode_sms');
+	    $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+	    if (!empty($string)) {
+	     $this->db->like('nm_pd',$string);
+	     $this->db->or_like('nipd',$string);
+	    }
+	    $this->db->order_by('id','desc');
+	    $query = $this->db->get('nilai',$sampai,$dari);
+	    return $query->result();
+	}
 }
