@@ -50,6 +50,18 @@ class Matakuliah_m extends CI_Model
         // $this->db->join('mata_kuliah_kurikulum', 'mata_kuliah_kurikulum.id_mk_siakad = mata_kuliah.id');
         return $this->db->get('mata_kuliah')->num_rows();
     }
+    function count_data_mk_prodi($prodi,$string){
+        $this->db->select('mata_kuliah.*,sms.nm_lemb,sms.id_sms,jenjang_pendidikan.nm_jenj_didik,sms.id AS idsms, jenjang_pendidikan.id AS idjenj');
+        if (!empty($string)) {
+            $this->db->like('nm_mk',$string);
+            $this->db->or_like('kode_mk',$string);
+        }
+        $this->db->where('mata_kuliah.id_sms',$prodi);
+        $this->db->join('sms', 'sms.id_sms = mata_kuliah.id_sms');
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        // $this->db->join('mata_kuliah_kurikulum', 'mata_kuliah_kurikulum.id_mk_siakad = mata_kuliah.id');
+        return $this->db->get('mata_kuliah')->num_rows();
+    }
     public function select_all_data_mk($sampai,$dari,$string){
         $this->db->select('mata_kuliah.*,sms.nm_lemb,sms.id_sms,jenjang_pendidikan.nm_jenj_didik,sms.id AS idsms, jenjang_pendidikan.id AS idjenj');
         if (!empty($string)) {
@@ -58,6 +70,19 @@ class Matakuliah_m extends CI_Model
         }
         $this->db->join('sms', 'sms.id_sms = mata_kuliah.id_sms');
         $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        $this->db->order_by('mata_kuliah.id','desc');
+        $query = $this->db->get('mata_kuliah',$sampai,$dari);
+        return $query->result();
+    }
+    public function select_all_data_mk_prodi($prodi,$sampai,$dari,$string){
+        $this->db->select('mata_kuliah.*,sms.nm_lemb,sms.id_sms,jenjang_pendidikan.nm_jenj_didik,sms.id AS idsms, jenjang_pendidikan.id AS idjenj');
+        if (!empty($string)) {
+         $this->db->like('nm_mk',$string);
+         $this->db->or_like('kode_mk',$string);
+        }
+        $this->db->join('sms', 'sms.id_sms = mata_kuliah.id_sms');
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        $this->db->where('mata_kuliah.id_sms',$prodi);
         $this->db->order_by('mata_kuliah.id','desc');
         $query = $this->db->get('mata_kuliah',$sampai,$dari);
         return $query->result();

@@ -10,7 +10,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function index(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -21,11 +21,15 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/mahasiswa/index');
-                $config['total_rows'] = $this->Mahasiswa_m->count_data_mahasiswa(@$post['string'],@$post['prodi']); //total row
+                if (!$this->ion_auth->in_group('prodi')) {
+                    $config['total_rows'] = $this->Mahasiswa_m->count_data_mahasiswa(@$post['string'],@$post['prodi']);
+                }else{
+                    $config['total_rows'] = $this->Mahasiswa_m->count_data_mahasiswa(@$post['string'],$data['users']->id_mhs);
+                }
                 $config['per_page'] = 10;  //show record per halaman
                 $config["uri_segment"] = 4;  // uri parameter
                 // style pagging
@@ -50,7 +54,12 @@ class Mahasiswa extends CI_Controller {
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
                 $data['prodi'] = $this->Mahasiswa_m->get_prodi();
-                $data['hasil'] = $this->Mahasiswa_m->select_all_data_mahasiswa($config["per_page"], $data['offset'],@$post['string'],@$post['prodi']);
+                if (!$this->ion_auth->in_group('prodi')) {
+                    $data['hasil'] = $this->Mahasiswa_m->select_all_data_mahasiswa($config["per_page"], $data['offset'],@$post['string'],@$post['prodi']);
+                }else{
+                    $data['hasil'] = $this->Mahasiswa_m->select_all_data_mahasiswa($config["per_page"], $data['offset'],@$post['string'],$data['users']->id_mhs);
+                }
+                
                 $data['pagination'] = $this->pagination->create_links();
                 $this->load->view('admin/dashboard-v',$data);
             }
@@ -62,7 +71,7 @@ class Mahasiswa extends CI_Controller {
     }
      public function detail($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -75,7 +84,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/detail-v';
                 $data['datamhs'] = $idmhs;
                 $data['akun'] = $akun;
@@ -102,7 +111,7 @@ class Mahasiswa extends CI_Controller {
     }
         public function proses_edit_akun(){
             if ($this->ion_auth->logged_in()) {
-                $level=array('admin');
+                $level=array('admin','prodi');
                 if (!$this->ion_auth->in_group($level)) {
                     $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                     $this->session->set_flashdata('message', $pesan );
@@ -132,7 +141,7 @@ class Mahasiswa extends CI_Controller {
         }
     public function nilai($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -144,6 +153,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/nilai-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
@@ -159,7 +169,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function histori_pendidikan($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -170,6 +180,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/histori-pendidikan-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
@@ -185,7 +196,7 @@ class Mahasiswa extends CI_Controller {
     }
      public function krs($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -196,6 +207,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/khs-mhs-v';
                 $data['datamhs'] = $idmhs;
                 $smtlat = $this->Mahasiswa_m->lastsmt($idmhs->idmhspt);
@@ -212,7 +224,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function kuliah_mahasiswa($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -225,6 +237,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/aktivitas-v';
                 $data['datamhs'] = $idmhs;
                 // pagging setting
@@ -240,7 +253,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function dtmhs(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -296,7 +309,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function tambah_mhs(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -307,6 +320,7 @@ class Mahasiswa extends CI_Controller {
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['page'] = 'admin/mahasiswa/tambah-v';
+                $data['aside'] = 'nav/prodi';
                 $this->load->view('admin/dashboard-v',$data);
             }
         }else{
@@ -317,7 +331,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function tmbh_mhs_pmb(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -334,6 +348,7 @@ class Mahasiswa extends CI_Controller {
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['page'] = 'admin/mahasiswa/tambah-pmb-v';
+                $data['aside'] = 'nav/prodi';
                 $url = 'http://pmb.unidayan.ac.id/index.php/kampus/get_data/'.@$val;
                 $ressult = json_decode(file_get_contents($url));
                 $data['hasil'] = $ressult;
@@ -348,7 +363,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function detail_mhs_pmb($idpmb){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -363,6 +378,7 @@ class Mahasiswa extends CI_Controller {
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['page'] = 'admin/mahasiswa/detail-pmb-v';
+                $data['aside'] = 'nav/prodi';
                 $data['hasil'] = $ressult;
                 $data['jurusan'] = $ressult2;
                 // echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();
@@ -377,7 +393,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function create_mahasiswa($idpmb){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -490,7 +506,7 @@ class Mahasiswa extends CI_Controller {
     }
     public function buktitandaregis($idmhspt){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -502,6 +518,7 @@ class Mahasiswa extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/mahasiswa/bukti-regis-v';
                 $data['hasil'] = $ressult;
                 // echo "<pre>";print_r($this->Admin_m->acakangkahuruf(5));echo "<pre/>";exit();

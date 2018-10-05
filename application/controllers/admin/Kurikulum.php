@@ -24,7 +24,13 @@ class Kurikulum extends CI_Controller {
                 $data['page'] = 'admin/kurikulum/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/kurikulum/index/');
-                $config['total_rows'] = $this->Kurikulum_m->count_kurikulum(@$post['string']); //total row
+                if (!$this->ion_auth->in_group('admin')) {
+                    $kodeprod = $this->Admin_m->detail_data('sms','kode_prodi',$data['users']->id_mhs)->id_sms;
+                    $config['total_rows'] = $this->Kurikulum_m->count_kurikulum_prodi($kodeprod,@$post['string']); //total row
+                }else{
+                    $config['total_rows'] = $this->Kurikulum_m->count_kurikulum(@$post['string']); //total row
+                }
+                
                 $config['per_page'] = 10;  //show record per halaman
                 $config["uri_segment"] = 4;  // uri parameter
                 // style pagging
@@ -49,7 +55,12 @@ class Kurikulum extends CI_Controller {
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
                 // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
-                $data['hasil'] = $this->Kurikulum_m->select_all_kurikulum($config["per_page"], $data['offset'],@$post['string']);
+                if (!$this->ion_auth->in_group('admin')) {
+                    $data['hasil'] = $this->Kurikulum_m->select_all_kurikulum_prodi($kodeprod,$config["per_page"],$data['offset'],@$post['string']);
+                }else{
+                    $data['hasil'] = $this->Kurikulum_m->select_all_kurikulum($config["per_page"], $data['offset'],@$post['string']);
+                }
+                
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $data['pagination'] = $this->pagination->create_links();
                 $this->load->view('admin/dashboard-v',$data);
@@ -62,7 +73,7 @@ class Kurikulum extends CI_Controller {
     }
      public function detail($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin');
+            $level = array('admin','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -74,7 +85,7 @@ class Kurikulum extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/nav';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/kurikulum/detail-v';
                 $data['datamhs'] = $detail;
                 

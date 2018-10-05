@@ -29,6 +29,15 @@ class Kurikulum_m extends CI_Model
         $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
         return $this->db->get('kurikulum')->num_rows();
     }
+    function count_kurikulum_prodi($prodi,$string){
+        if (!empty($string)) {
+            $this->db->like('nm_kurikulum_sp',$string);
+        }
+        $this->db->join('sms', 'sms.id_sms = kurikulum.id_sms');
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        $this->db->where('kurikulum.id_sms',$prodi);
+        return $this->db->get('kurikulum')->num_rows();
+    }
     public function select_all_kurikulum($sampai,$dari,$string){
         $this->db->select('kurikulum.*,semester.*,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik,kurikulum.id AS idkur');
     	if (!empty($string)) {
@@ -37,6 +46,19 @@ class Kurikulum_m extends CI_Model
         $this->db->join('sms', 'sms.id_sms = kurikulum.id_sms');
         $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
         $this->db->join('semester', 'semester.id_smt = kurikulum.id_smt');
+        $this->db->order_by('kurikulum.id','desc');
+        $query = $this->db->get('kurikulum',$sampai,$dari);
+        return $query->result();
+    }
+    public function select_all_kurikulum_prodi($prodi,$sampai,$dari,$string){
+        $this->db->select('kurikulum.*,semester.*,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik,kurikulum.id AS idkur');
+        if (!empty($string)) {
+            $this->db->like('nm_kurikulum_sp',$string);
+        }
+        $this->db->join('sms', 'sms.id_sms = kurikulum.id_sms');
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+        $this->db->join('semester', 'semester.id_smt = kurikulum.id_smt');
+        $this->db->where('kurikulum.id_sms',$prodi);
         $this->db->order_by('kurikulum.id','desc');
         $query = $this->db->get('kurikulum',$sampai,$dari);
         return $query->result();

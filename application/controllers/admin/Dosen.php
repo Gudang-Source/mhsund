@@ -9,7 +9,7 @@ class Dosen extends CI_Controller {
     }
     public function index(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','dosen');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -20,7 +20,7 @@ class Dosen extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/dosen/main-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/dosen/index/');
@@ -62,7 +62,7 @@ class Dosen extends CI_Controller {
     }
     public function penugasan(){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','dosen');
+            $level = array('admin','dosen','prodi');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -73,7 +73,7 @@ class Dosen extends CI_Controller {
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/admin';
+                $data['aside'] = 'nav/prodi';
                 $data['page'] = 'admin/dosen/penugasan-v';
                 // config paging
                 $config['base_url'] = base_url('index.php/admin/dosen/penugasan/');
@@ -115,7 +115,7 @@ class Dosen extends CI_Controller {
     }
     public function detail($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','dosen');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -145,7 +145,7 @@ class Dosen extends CI_Controller {
     }
     public function detail_penugasan($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','dosen');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
@@ -201,7 +201,7 @@ class Dosen extends CI_Controller {
     }
     public function aktivitas($id){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','dosen');
+            $level = array('admin','prodi','dosen');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
