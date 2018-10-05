@@ -1,30 +1,54 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Kuliah_mahasiswa extends CI_Controller {
+class Setting extends CI_Controller {
 
     function __construct(){
         parent::__construct();
         $this->load->model('admin/Admin_m');
-        $this->load->model('admin/Kuliah_mhs_m');
+        $this->load->model('admin/Setting_m');
     }
-   public function index(){
+    public function index($offset=0){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members','prodi');
+            $level = array('admin','members');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
                 $post = $this->input->get();
-                $data['title'] = 'Aktivitas Mahasiswa - '.$this->Admin_m->info_pt(1)->nama_info_pt;
+                $data['title'] = 'Setting - '.$this->Admin_m->info_pt(1)->nama_info_pt;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
-                $data['aside'] = 'nav/prodi';
-                $data['page'] = 'admin/aktivitas/main-v';
+                // $data['aside'] = 'nav/nav';
+                $data['page'] = 'admin/setting/main-v';
+                // pagging setting
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
+    public function user_prodi(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $post = $this->input->get();
+                $data['title'] = 'Daftar Akun Program Studi - '.$this->Admin_m->info_pt(1)->nama_info_pt;
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/admin';
+                $data['page'] = 'admin/setting/user-prodi-v';
                 // config paging
-                $config['base_url'] = base_url('index.php/admin/aktivitas/mahasiswa/');
-                $config['total_rows'] = $this->Kuliah_mhs_m->count_ak_mhs(@$post['string']); //total row
+                $config['base_url'] = base_url('index.php/admin/setting/user_prodi/');
+                $config['total_rows'] = $this->Setting_m->count_user_prodi(@$post['string']); //total row
                 $config['per_page'] = 10;  //show record per halaman
                 $config["uri_segment"] = 4;  // uri parameter
                 // style pagging
@@ -49,7 +73,7 @@ class Kuliah_mahasiswa extends CI_Controller {
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
                 // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
-                $data['hasil'] = $this->Kuliah_mhs_m->select_akt_mhs($config["per_page"], $data['offset'],@$post['string']);
+                $data['hasil'] = $this->Setting_m->select_user_prodi($config["per_page"],$data['offset'],@$post['string']);
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $data['pagination'] = $this->pagination->create_links();
                 $this->load->view('admin/dashboard-v',$data);
