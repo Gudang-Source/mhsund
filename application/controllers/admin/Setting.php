@@ -84,5 +84,53 @@ class Setting extends CI_Controller {
             redirect(base_url('index.php/login'));
         }
     }
+    public function create_akun_prodi(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('first_name', 'Nama Lengkap', 'trim|alpha_dash|required');
+                $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]|max_length[16]');
+                $this->form_validation->set_rules('id_mhs', 'Program Studi', 'trim|required');
+                $this->form_validation->set_rules('repassword', 'Ulangi Password', 'trim|required|matches[password]');
+                if ($this->form_validation->run() == FALSE)
+                {
+                    $pesan = $this->ion_auth->errors();
+                    $this->session->set_flashdata('eror', $pesan );
+                    redirect(base_url('index.php/admin/setting/user_prodi'));
+                }
+                else
+                {
+                    $idakhir = $this->Setting_m->lastid()->id+1;
+                    $username = trim(str_pad($idakhir, 8, 0, STR_PAD_LEFT));
+                    $email = 'info@unidayan.ac.id';
+                    $password = $this->input->post('password');
+                    $group = array($this->Admin_m->detail_data('groups','name','prodi')->id);
+                                    // validasi
+                    $additional_data = array(
+                        'first_name' => trim($this->input->post('first_name')),
+                        'id_mhs' =>trim($this->input->post('id_mhs')),
+                        'last_name' => $this->Admin_m->info_pt(1)->nama_info_pt,
+                        'company' => $this->Admin_m->info_pt(1)->nama_info_pt,
+                        'phone' => '123456789',
+                        'lvl' => '2',
+                        'repassword' => $password,
+                    );
+                    $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                    $pesan = 'Admin Prodi berhasil dibuat';
+                    $this->session->set_flashdata('message', $pesan );
+                    redirect(base_url('index.php/admin/setting/user_prodi'));
+                }
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
 }
 ?>

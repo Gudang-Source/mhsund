@@ -24,4 +24,9 @@ class Setting_m extends CI_Model
 		$query = $this->db->get('sms');
 		return $query->result();
 	}
+	public function lastid(){
+		$this->db->order_by('id','desc');
+		$query = $this->db->get('users');
+		return $query->row();
+	}
 }

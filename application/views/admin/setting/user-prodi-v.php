@@ -6,6 +6,16 @@
 				<button class="float-right btn btn-outline-dark mb-4" data-toggle="modal" data-target="#addprodi"><i class="ti ti-plus"></i> Tambah Akun Prodi</button>
 			</div>
 		</div>
+		<?php if ($this->session->flashdata('eror')): ?>
+			<div class="alert alert-danger" >
+				<i class="ti ti-warning"></i> <strong><?php echo $this->session->flashdata('eror');?></strong>
+			</div>
+		<?php endif ;?>
+		<?php if ($this->session->flashdata('message')): ?>
+			<div class="alert alert-success my-4" >
+				<i class="ti ti-success"></i> <strong><?php echo $this->session->flashdata('message');?></strong>
+			</div>
+		<?php endif ;?>
 		<table width="100%" border="1" style="font-size: 13px">
 			<tr class="table-info">
 				<td class="text-center p-1">No</td>
@@ -55,7 +65,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form>
+				<form action="<?php echo base_url('index.php/admin/setting/create_akun_prodi') ?>" method="post">
 					<div class="modal-body">
 						<div class="row">
 							<div class="col">
@@ -75,13 +85,29 @@
 								    		<option value="<?php echo $data->kode_prodi ?>"><?php echo $data->nm_jenj_didik.' - '.$data->nm_lemb; ?></option>
 								    	<?php endforeach ?>
 								    </select>
-								    <small class="form-text text-muted">Masukan nama tanpa gelar dan tidak menggunakan tanda titik (.)</small>
+								    <small class="form-text text-muted">Pilih Program Studi yang akan di tambahkan admin</small>
+								  </div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+								    <label>Password</label>
+								    <input type="password" class="form-control" placeholder="Masukan Nama Lengkap" name="password" required>
+								    <small class="form-text text-muted">Gunakan password yang mudah di ingat terdiri dari minimal 8 karakter dan maksimal 16 karakter, dapat menggunakan angka atau huruf atau kombinasinya. tidak boleh menggunakan simbol.</small>
+								  </div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+								    <label>Ulangi Password</label>
+								    <input type="password" class="form-control" placeholder="Masukan Nama Lengkap" name="repassword" required>
+								    <small class="form-text text-muted">Ulangi password yang anda tulis sebelumnya, harus identik sama untuk dapat melanjutjan ke tahap berikutnya</small>
 								  </div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-primary">Simpan</button>
+						<button type="submit" name="submit" value="submit" class="btn btn-outline-primary">Buat Admin Prodi</button>
 					</div>
 				</form>
 			</div>
