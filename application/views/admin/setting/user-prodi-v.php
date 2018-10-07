@@ -6,22 +6,23 @@
 				<button class="float-right btn btn-outline-dark mb-4" data-toggle="modal" data-target="#addprodi"><i class="ti ti-plus"></i> Tambah Akun Prodi</button>
 			</div>
 		</div>
-		<?php if ($this->session->flashdata('eror')): ?>
+		<?php if ($this->session->flashdata('gagalkirim')): ?>
 			<div class="alert alert-danger" >
-				<i class="ti ti-warning"></i> <strong><?php echo $this->session->flashdata('eror');?></strong>
+				<i class="ti ti-alert"></i> <strong><?php echo $this->session->flashdata('gagalkirim');?></strong>
 			</div>
 		<?php endif ;?>
 		<?php if ($this->session->flashdata('message')): ?>
 			<div class="alert alert-success my-4" >
-				<i class="ti ti-success"></i> <strong><?php echo $this->session->flashdata('message');?></strong>
+				<i class="ti ti-check-box"></i> <strong><?php echo $this->session->flashdata('message');?></strong>
 			</div>
 		<?php endif ;?>
 		<table width="100%" border="1" style="font-size: 13px">
 			<tr class="table-info">
 				<td class="text-center p-1">No</td>
-				<td class="text-center p-1">Nama</td>
 				<td class="text-center p-1">Username</td>
+				<td class="text-center p-1">Nama</td>
 				<td class="text-center p-1">Program Studi</td>
+				<td class="text-center p-1">Tanggal buat</td>
 				<td class="text-center p-1">Status</td>
 				<td class="text-center p-1" colspan="2"></td>
 			</tr>
@@ -34,9 +35,11 @@
 			<?php foreach ($hasil as $data): ?>
 				<tr>
 					<td class="text-center p-2"><?php echo $no; ?></td>
-					<td class="p-2"><?php echo $data->first_name; ?></td>
+					
 					<td class="text-center p-2"><?php echo $data->username; ?></td>
+					<td class="p-2"><a href="<?php echo base_url('index.php/admin/setting/detail_adm_prodi/'.$data->id) ?>" class="text-info"><?php echo $data->first_name; ?></a></td>
 					<td class="p-2"><?php echo $data->nm_jenj_didik.' - '.$data->nm_lemb; ?></td>
+					<td class="p-2"><?php echo unix_to_human($data->created_on); ?></td>
 					<td class="text-center p-2">
 						<?php if ($data->active == 1): ?>
 							<span class="text-success">Aktif</span>

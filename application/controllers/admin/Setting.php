@@ -92,15 +92,15 @@ class Setting extends CI_Controller {
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
-                $this->load->library('form_validation');
                 $this->form_validation->set_rules('first_name', 'Nama Lengkap', 'trim|alpha_dash|required');
                 $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]|max_length[16]');
                 $this->form_validation->set_rules('id_mhs', 'Program Studi', 'trim|required');
                 $this->form_validation->set_rules('repassword', 'Ulangi Password', 'trim|required|matches[password]');
                 if ($this->form_validation->run() == FALSE)
                 {
-                    $pesan = $this->ion_auth->errors();
-                    $this->session->set_flashdata('eror', $pesan );
+                    $pesan = validation_errors();
+                    // echo "<pre>";print_r($pesan);echo "<pre/>";exit();
+                    $this->session->set_flashdata('gagalkirim',$pesan);
                     redirect(base_url('index.php/admin/setting/user_prodi'));
                 }
                 else
