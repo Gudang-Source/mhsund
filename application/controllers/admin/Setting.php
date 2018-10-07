@@ -72,7 +72,7 @@ class Setting extends CI_Controller {
                 $config['last_tagl_close']  = '</span></li>';
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-                // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
+                $data['prodi'] = $this->Setting_m->all_prodi();
                 $data['hasil'] = $this->Setting_m->select_user_prodi($config["per_page"],$data['offset'],@$post['string']);
                 // echo "<pre>";print_r($data['hasil']);echo "<pre/>";exit();
                 $data['pagination'] = $this->pagination->create_links();

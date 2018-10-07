@@ -19,4 +19,9 @@ class Setting_m extends CI_Model
 		$query = $this->db->get('users',$sampai,$dari);
 		return $query->result();
 	}
+	public function all_prodi(){
+        $this->db->join('jenjang_pendidikan', 'jenjang_pendidikan.id_jenj_didik = sms.id_jenj_didik');
+		$query = $this->db->get('sms');
+		return $query->result();
+	}
 }
