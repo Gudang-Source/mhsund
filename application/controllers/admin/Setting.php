@@ -132,5 +132,30 @@ class Setting extends CI_Controller {
             redirect(base_url('index.php/admin//login'));
         }
     }
+    public function detail_adm_prodi($id){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                $detail = $this->Admin_m->detail_data('users','id',$id);
+                $data['title'] = 'Setting - '.$this->Admin_m->info_pt(1)->nama_info_pt;
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                // $data['aside'] = 'nav/nav';
+                $data['akun'] = $detail;
+                $data['page'] = 'admin/setting/detail-adm-prodi-v';
+                // pagging setting
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/admin//login'));
+        }
+    }
 }
 ?>

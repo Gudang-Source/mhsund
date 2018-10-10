@@ -47,6 +47,8 @@
               <div class="dropdown-menu" aria-labelledby="dosen" style="font-size: 13px;">
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/dosen') ?>">Dosen</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/dosen/penugasan') ?>">Penugasan Dosen</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/dosen_lb') ?>">Dosen LB</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/dosen_lb/penugasan') ?>">Penugasan Dosen LB</a>
               </div>
             </li>
             <li class="nav-item dropdown">

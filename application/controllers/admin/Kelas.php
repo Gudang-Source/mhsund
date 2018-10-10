@@ -305,7 +305,7 @@ class Kelas extends CI_Controller {
                     'jml_tm_real' => $post['jml_tm_real'],
                 );
                 // echo "<pre>";print_r($post);echo "</pre>";exit();
-                $this->Kelas_m->edit('ajar_dosen','id',$post['id_ajr_dosen'],$datamhs);
+                $this->Admin_m->update_data('ajar_dosen','id',$post['id_ajr_dosen'],$datamhs);
                 $pesan = 'Perubahan data dosen berhasil';
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/kelas/detail/'.$post['id_kls_siakad']));

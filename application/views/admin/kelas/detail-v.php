@@ -248,7 +248,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="tengah nobold"><i class="fa fa-plus u20 txtbiru"></i> Atur Kelas</h4><hr/>
 				<div class="prfbox">
-					<form action="<?php echo base_url('index.php/prodi/kelas/proses_tambah_dosen_kelas'); ?>" method="post">
+					<form action="<?php echo base_url('index.php/admin/kelas/proses_tambah_dosen_kelas'); ?>" method="post">
 						<div class="form-group">
 							<label>Tambah dosen</label>
 							<input type="text" id="namaDosen" name="id_dosen" class="form-control" placeholder="Masukan nama Dosen" onkeyup="cariDosen(this.value);" onblur="pilih();">

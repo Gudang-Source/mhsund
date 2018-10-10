@@ -37,7 +37,7 @@
 					<td class="text-center p-2"><?php echo $no; ?></td>
 					
 					<td class="text-center p-2"><?php echo $data->username; ?></td>
-					<td class="p-2"><a href="<?php echo base_url('index.php/admin/setting/detail_adm_prodi/'.$data->id) ?>" class="text-info"><?php echo $data->first_name; ?></a></td>
+					<td class="p-2"><a href="<?php echo base_url('index.php/admin/setting/detail_adm_prodi/'.$data->iduser) ?>" class="text-info"><?php echo $data->first_name; ?></a></td>
 					<td class="p-2"><?php echo $data->nm_jenj_didik.' - '.$data->nm_lemb; ?></td>
 					<td class="p-2"><?php echo unix_to_human($data->created_on); ?></td>
 					<td class="text-center p-2">

@@ -9,6 +9,7 @@ class Setting_m extends CI_Model
 		return $this->db->get('users')->num_rows();
 	}
 	public function select_user_prodi($sampai,$dari,$string){
+		$this->db->select('users.*,sms.nm_lemb,jenjang_pendidikan.nm_jenj_didik, users.id AS iduser');
 		if (!empty($string)) {
 			$this->db->like('first_name',$string);
 		}
