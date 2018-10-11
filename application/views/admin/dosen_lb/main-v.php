@@ -36,8 +36,8 @@
 								<td class="text-center p-1"><?php echo $data->nm_agama; ?></td>
 								<td class="text-center p-1"><?php echo $data->tgl_lhr_dsn_lb; ?></td>
 								<td class="p-1"></td>
-								<td class="p-1"><a href="<?php echo base_url('index.php/admin/dosen_lb/detail/'.$data->id_dosen_lb) ?>" class="text-info"><i class="ti ti-pencil"></i></a></td>
-	                    		<td class="p-1"><a href="#" class="text-danger"><i class="ti ti-trash"></i></a></td>
+								<td class="text-center p-1"><a href="<?php echo base_url('index.php/admin/dosen_lb/detail/'.$data->id_dosen_lb) ?>" class="text-info"><i class="ti ti-pencil"></i></a></td>
+	                    		<td class="text-center p-1"><a href="#" class="text-danger"><i class="ti ti-trash"></i></a></td>
 							</tr>
 							<?php $no++ ?>
 						<?php endforeach ?>
