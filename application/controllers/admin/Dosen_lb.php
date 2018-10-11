@@ -53,6 +53,7 @@ class Dosen_lb extends CI_Controller {
                 $config['last_tagl_close']  = '</span></li>';
                 $this->pagination->initialize($config);
                 $data['offset'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+                $data['agama'] =$this->Admin_m->select_data('agama');
                 // $data['prodi'] = $this->Mahasiswa_m->get_prodi();
                 if (!$this->ion_auth->in_group('prodi')) {
                     $data['hasil'] = $this->Dosen_lb_m->select_all_dosen_lb($config["per_page"], $data['offset'],@$post['string'],@$post['prodi']);
