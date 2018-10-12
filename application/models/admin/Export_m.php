@@ -2,7 +2,7 @@
 class Export_m extends CI_Model {
 
 	public function cekdata($value) {
-		$this->db->select('nipd');
+		$this->db->select('nipd,id_pd_siakad');
 		$this->db->where('nipd', $value);
 		$query = $this->db->get('mahasiswa_pt');
 		return $query->row();
