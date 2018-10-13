@@ -86,7 +86,9 @@
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/rekaptulasi/krs') ?>">KRS Mahasiswa</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/rekaptulasi/khs') ?>">KHS Mahasiswa</a>
                 <a class="dropdown-item" href="<?php echo base_url('index.php/admin/rekaptulasi/stat_mahasiswa') ?>">Laporan Status Mahasiswa</a>
-                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/export') ?>">EXPORT DATA</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/rekaptulasi/export_mahasiswa') ?>">EXPORT DATA</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/rekaptulasi/akun_mahasiswa') ?>">Cetak Akun Mahasiswa</a>
+                <a class="dropdown-item" href="<?php echo base_url('index.php/admin/bukuinduk') ?>">Buku Induk Mahasiswa</a>
               </div>
             </li>
             <li class="nav-item dropdown">
